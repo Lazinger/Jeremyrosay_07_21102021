@@ -21,7 +21,7 @@
         <v-icon class="ml-3">mdi-login</v-icon>
       </v-btn> -->
 
-      <v-list class="d-flex justify-center">
+      <v-list class="d-flex justify-center" color="grey lighten-4">
         <v-list-item
           v-for="registering in registerings"
           :key="registering.text"
@@ -97,9 +97,9 @@ export default {
           route: '/signup',
         },
       ],
-    }
+    };
   },
-}
+};
 </script>
 
 <style></style>

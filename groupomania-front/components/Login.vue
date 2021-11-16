@@ -9,13 +9,15 @@
                 <v-toolbar-title>Se connecter</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <v-form>
+                <v-form v-model="isValid">
                   <v-text-field
                     prepend-icon="mdi-account "
                     name="email"
                     label="Adresse mail"
                     type="text"
+                    :rules="[(v) => !!v || 'Email requis']"
                     v-model="email"
+                    required
                   ></v-text-field>
                   <v-text-field
                     id="password"
@@ -23,13 +25,20 @@
                     name="password"
                     label="Mot de passe"
                     type="password"
+                    :rules="[(v) => !!v || 'Mot de passe requis']"
                     v-model="password"
+                    required
                   ></v-text-field>
                 </v-form>
+                <div class="danger-alert" v-html="message" />
               </v-card-text>
+              <!-- <div class="danger-alert" v-html="errorMessage" /> -->
+
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" @click="login()">Envoyer</v-btn>
+                <v-btn color="primary" :disabled="!isValid" @click="login()"
+                  >Envoyer</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -41,6 +50,7 @@
 
 <script>
 import axios from 'axios';
+import authentication from '../services/userAuthentication';
 
 export default {
   name: 'Login',
@@ -48,14 +58,23 @@ export default {
     return {
       email: '',
       password: '',
+      isValid: true,
+      errorMessage: null,
+      message: null,
     };
   },
   methods: {
-    login() {
-      axios.post('http://localhost:4000/login', {
-        email: this.email,
-        password: this.password,
-      });
+    async login() {
+      try {
+        const response = await authentication.login({
+          email: this.email,
+          password: this.password,
+        });
+        this.message = response.data.message;
+        this.$store.dispatch('setToken', response.data.token);
+      } catch {
+        this.errorMessage = error.response.data.error;
+      }
     },
   },
 };
