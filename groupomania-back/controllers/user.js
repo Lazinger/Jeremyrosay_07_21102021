@@ -3,55 +3,6 @@ const db = require("../models");
 const token = require("../middlewares/token");
 // const fs = require("fs");
 
-// exports.login = async (req, res) => {
-// 	try {
-// 		const user = await db.User.findOne({
-// 			where: { email: req.body.email },
-// 		}); // Check if the mail adress exist in the Database
-// 		if (user === null) {
-// 			return res.status(401).send({ error: "Utilisateur non trouvé" });
-// 		}
-// 		const hash = await bcrypt.compare(req.body.password, user.password); // Compare passwords
-// 		if (!hash) {
-// 			return res.status(401).send({ error: "Mot de passe incorrect !" });
-// 		}
-// 		const tokenObject = await token.issueJwt(user);
-// 		res.status(200).send({
-// 			// Return User and Token
-// 			user: user,
-// 			token: tokenObject.token,
-// 			sub: tokenObject.sub,
-// 			expires: tokenObject.expiresIn,
-// 			message: "Bonjour " + user.firstName + " !",
-// 		});
-// 	} catch (error) {
-// 		return res.status(500).send({ error: "Erreur serveur" });
-// 	}
-// };
-
-// exports.login = async (req, res) => {
-// 	try {
-// 		const user = await db.User.findOne({
-// 			where: { email: req.body.email },
-// 		});
-// 		if (user === null) {
-// 			return res.status(400).send({ error: "Utilisateur non trouvé" });
-// 		} else {
-// 			console.log("C'est bon j'ai ton email");
-// 		}
-// 		const mdp = await db.User.findOne({
-// 			where: { password: req.body.password },
-// 		});
-// 		if (mdp === null) {
-// 			return res.status(400).send({ error: "Password manquant ou erroné" });
-// 		} else {
-// 			console.log("C'est bon j'ai ton mdp");
-// 		}
-// 	} catch (error) {
-// 		return res.status(500).send({ error: "Erreur serveur" });
-// 	}
-// };
-
 exports.signup = async (req, res) => {
 	try {
 		const user = await db.User.findOne({
@@ -82,33 +33,6 @@ exports.signup = async (req, res) => {
 	}
 };
 
-// exports.login = (req, res, next) => {
-// 	try {
-// 		db.User.findOne({ where: { email: req.body.email } }).then((user) => {
-// 			if (!user) {
-// 				return res.status(401).json({ error: "Utilisateur non trouvé" });
-// 			}
-// 			db.User.findOne({ where: { password: req.body.password } })
-// 				.then((valid) => {
-// 					if (!valid) {
-// 						return res.status(401).json({ error: "Password non trouvé" });
-// 					}
-// 					res.status(200).send({
-// 						// on renvoie le user et le token
-// 						user: user,
-// 						// token: tokenObject.token,
-// 						// sub: tokenObject.sub,
-// 						// expires: tokenObject.expiresIn,
-// 						message: "Bonjour " + user.firstName + " !",
-// 					});
-// 				})
-// 				.catch((error) => res.status(500).json({ error }));
-// 		});
-// 	} catch (error) {
-// 		return res.status(500).json({ error });
-// 	}
-// };
-
 exports.login = async (req, res) => {
 	try {
 		const user = await db.User.findOne({
@@ -134,5 +58,26 @@ exports.login = async (req, res) => {
 		}
 	} catch (error) {
 		return res.status(500).send({ error: "Erreur serveur" });
+	}
+};
+exports.getUser = async (req, res) => {
+	// on trouve l'utilisateur et on renvoie l'objet user
+	try {
+		const user = await db.User.findOne({
+			where: { id: req.params.id },
+		});
+		res.status(200).send(user);
+	} catch (error) {
+		return res.status(500).send({ error: "Erreur serveur" });
+	}
+};
+exports.getAllUsers = async (req, res, next) => {
+	try {
+		const users = await db.User.findAll({
+			attributes: ["id", "firstName", "lastName", "email", "createdAt", "updateAt"],
+		});
+		res.status(200).send(users);
+	} catch (error) {
+		return res.status(500).send({ error: "Erreur Serveur" });
 	}
 };

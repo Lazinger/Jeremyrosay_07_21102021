@@ -6,8 +6,10 @@
         @click="drawer = !drawer"
       ></v-app-bar-nav-icon>
       <v-toolbar-title class="text-uppercase grey--text">
-        <span class="font-weight-light">Groupo</span>
-        <span>Mania</span>
+        <nuxt-link to="/"
+          ><span class="font-weight-light">Groupo</span
+          ><span>MANIA</span></nuxt-link
+        >
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -21,16 +23,35 @@
         <v-icon class="ml-3">mdi-login</v-icon>
       </v-btn> -->
 
-      <v-list class="d-flex justify-center" color="grey lighten-4">
+      <v-list
+        v-if="isLogged"
+        class="d-flex justify-center"
+        color="grey lighten-4"
+      >
         <v-list-item
-          v-for="registering in registerings"
-          :key="registering.text"
+          v-for="link in loggedIn"
+          :key="link.text"
           router
-          :to="registering.route"
+          :to="link.route"
         >
           <v-list-item-content>
             <v-list-item-title class="grey--text">
-              {{ registering.text }}
+              {{ link.text }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <v-list v-else class="d-flex justify-center" color="grey lighten-4">
+        <v-list-item
+          v-for="link in notLoggedIn"
+          :key="link.text"
+          router
+          :to="link.route"
+        >
+          <v-list-item-content>
+            <v-list-item-title class="grey--text">
+              {{ link.text }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -46,7 +67,7 @@
     >
       <v-list>
         <v-list-item
-          v-for="link in links"
+          v-for="link in sideLinks"
           :key="link.text"
           router
           :to="link.route"
@@ -70,7 +91,8 @@ export default {
   data() {
     return {
       drawer: false,
-      links: [
+
+      sideLinks: [
         {
           icon: 'mdi-view-dashboard',
           text: 'Accueil',
@@ -87,9 +109,10 @@ export default {
           route: '/team',
         },
       ],
-      registerings: [
+
+      loggedIn: [
         {
-          text: 'Se connecter',
+          text: 'Se déconnecter',
           route: '/login',
         },
         {
@@ -97,9 +120,28 @@ export default {
           route: '/signup',
         },
       ],
+      notLoggedIn: [
+        {
+          text: 'Se connecter',
+          route: '/login',
+        },
+        {
+          text: "S'enregistrer",
+          route: 'signup',
+        },
+      ],
     };
+  },
+  computed: {
+    isLogged() {
+      return this.$store.state.user !== null;
+    },
   },
 };
 </script>
 
-<style></style>
+<style>
+.nuxt-link-active {
+  text-decoration: none;
+}
+</style>

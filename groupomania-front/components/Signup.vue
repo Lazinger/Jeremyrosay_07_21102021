@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 export default {
   name: 'Signup',
   data() {
@@ -105,13 +104,19 @@ export default {
     };
   },
   methods: {
-    signup() {
-      axios.post('http://localhost:4000/signup', {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        password: this.password,
-      });
+    async signup() {
+      try {
+        const res = await this.$axios.$post('/signup', {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password,
+        });
+        this.$toast('Register OK');
+        this.$router.push('/');
+      } catch (error) {
+        this.$toast.error('Register fail');
+      }
     },
   },
 };

@@ -29,6 +29,7 @@
           <v-card-text>
             <div class="font-weight-bold ml-8 mb-2">
               Une abeille sur une fleur
+              {{ $store.state.counter }}
             </div>
             <p>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora,
@@ -78,7 +79,18 @@ export default {
       },
     ],
   }),
-}
+  methods: {
+    add() {
+      this.$store.commit('add', 2);
+      console.log('toto');
+    },
+  },
+  computed: {
+    counter() {
+      return this.$store.counter;
+    },
+  },
+};
 </script>
 
 <style></style>

@@ -1,9 +1,9 @@
 <template>
-  <h1>This a profil page</h1>
+  <Profil />
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
 
 <style></style>

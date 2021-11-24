@@ -36,7 +36,10 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" :disabled="!isValid" @click="login()"
+                <v-btn
+                  color="primary"
+                  :disabled="!isValid"
+                  @click.prevent="login()"
                   >Envoyer</v-btn
                 >
               </v-card-actions>
@@ -49,11 +52,10 @@
 </template>
 
 <script>
-import axios from 'axios';
-import authentication from '../services/userAuthentication';
-
+import api from '../plugins/userAuthentication';
 export default {
   name: 'Login',
+
   data() {
     return {
       email: '',
@@ -66,14 +68,30 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await authentication.login({
-          email: this.email,
-          password: this.password,
-        });
-        this.message = response.data.message;
-        this.$store.dispatch('setToken', response.data.token);
-      } catch {
-        this.errorMessage = error.response.data.error;
+        const res = await api.login(
+          this.$axios,
+          {
+            email: this.email,
+            password: this.password,
+          },
+          this.$store,
+          this.$toast
+        );
+        console.log('response', res);
+
+        let data = res;
+        localStorage.setItem(
+          'userSession',
+          JSON.stringify({ token: data.token, userId: data.user.id })
+        );
+        // localStorage.setItem('user', JSON.stringify(data.user));
+
+        console.log(data);
+
+        this.$router.push('/');
+      } catch (error) {
+        console.log(error);
+        this.$toast.error('Login fail');
       }
     },
   },

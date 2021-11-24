@@ -12,6 +12,7 @@ function issueJwt(user) {
 		iat: Date.now(), // iat : date à laquelle a été créé le jeton (issued at)
 	};
 	const signedToken = jwt.sign(payload, `${TOKEN}`, { expiresIn: expiresIn });
+	console.log(signedToken);
 	return {
 		token: "Bearer " + signedToken,
 		expires: expiresIn,
