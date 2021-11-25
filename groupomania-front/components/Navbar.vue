@@ -23,28 +23,9 @@
         <v-icon class="ml-3">mdi-login</v-icon>
       </v-btn> -->
 
-      <v-list
-        v-if="isLogged"
-        class="d-flex justify-center"
-        color="grey lighten-4"
-      >
+      <v-list class="d-flex justify-center" color="grey lighten-4">
         <v-list-item
-          v-for="link in loggedIn"
-          :key="link.text"
-          router
-          :to="link.route"
-        >
-          <v-list-item-content>
-            <v-list-item-title class="grey--text">
-              {{ link.text }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-
-      <v-list v-else class="d-flex justify-center" color="grey lighten-4">
-        <v-list-item
-          v-for="link in notLoggedIn"
+          v-for="link in navLinks"
           :key="link.text"
           router
           :to="link.route"
@@ -65,6 +46,15 @@
       app
       class="primary"
     >
+      <v-layout column align-center>
+        <v-row class="mt-5 text-center">
+          <v-col cols="6">
+            <v-avatar size="100">
+              <img src="../static/image-1.png" />
+            </v-avatar>
+          </v-col>
+        </v-row>
+      </v-layout>
       <v-list>
         <v-list-item
           v-for="link in sideLinks"
@@ -109,18 +99,7 @@ export default {
           route: '/team',
         },
       ],
-
-      loggedIn: [
-        {
-          text: 'Se déconnecter',
-          route: '/login',
-        },
-        {
-          text: "S'enregistrer",
-          route: '/signup',
-        },
-      ],
-      notLoggedIn: [
+      navLinks: [
         {
           text: 'Se connecter',
           route: '/login',
@@ -132,11 +111,7 @@ export default {
       ],
     };
   },
-  computed: {
-    isLogged() {
-      return this.$store.state.user !== null;
-    },
-  },
+  computed: {},
 };
 </script>
 

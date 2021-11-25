@@ -84,11 +84,13 @@ export default {
           'userSession',
           JSON.stringify({ token: data.token, userId: data.user.id })
         );
-        // localStorage.setItem('user', JSON.stringify(data.user));
 
         console.log(data);
 
         this.$router.push('/');
+        this.$store.dispatch('setToken', res.data.token);
+        this.$store.dispatch('setUser', res.data.user);
+        this.$store.dispatch('getUserById', res.data.user.id);
       } catch (error) {
         console.log(error);
         this.$toast.error('Login fail');
