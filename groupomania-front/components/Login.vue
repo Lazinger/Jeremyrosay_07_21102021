@@ -80,17 +80,17 @@ export default {
         console.log('response', res);
 
         let data = res;
-        localStorage.setItem(
-          'userSession',
-          JSON.stringify({ token: data.token, userId: data.user.id })
-        );
+        // localStorage.setItem(
+        //   'userSession',
+        //   JSON.stringify({ token: data.token, userId: data.user.id })
+        // );
 
         console.log(data);
+        this.$store.dispatch('setToken', data.token);
+        this.$store.dispatch('setUser', data.user);
+        this.$store.dispatch('getUserById', data.user.id);
 
         this.$router.push('/');
-        this.$store.dispatch('setToken', res.data.token);
-        this.$store.dispatch('setUser', res.data.user);
-        this.$store.dispatch('getUserById', res.data.user.id);
       } catch (error) {
         console.log(error);
         this.$toast.error('Login fail');
