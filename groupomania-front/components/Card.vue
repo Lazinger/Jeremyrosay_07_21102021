@@ -31,6 +31,7 @@
               Une abeille sur une fleur
               {{ $store.state.counter }}
             </div>
+
             <p>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora,
               consequatur eveniet! Minima ut, recusandae obcaecati amet sed

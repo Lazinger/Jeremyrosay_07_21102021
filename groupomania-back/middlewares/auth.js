@@ -1,11 +1,16 @@
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv").config();
+require("dotenv").config();
+
+const TOKEN = process.env.JWT_TOKEN;
 
 module.exports = (req, res, next) => {
 	try {
 		const token = req.headers.authorization.split(" ")[1]; // on récupère le token de la requête entrante
-		const decodedToken = jwt.verify(token, `${dotenv.JWT_TOKEN}`); // on le vérifie
+		console.log("Je suis ICI ------------", token);
+		const decodedToken = jwt.verify(token, `${TOKEN}`); // on le vérifie
+
 		const userId = decodedToken.sub; // on récupère l'id du token
+
 		if (req.body.userId && req.body.userId !== userId) {
 			// on compare le userid de la requête à celui du token
 			throw "User id non valable !";

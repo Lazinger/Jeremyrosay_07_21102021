@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const db = require("../models");
 const token = require("../middlewares/token");
+const auth = require("../middlewares/auth");
 // const fs = require("fs");
 
 exports.signup = async (req, res) => {
@@ -71,10 +72,10 @@ exports.getUser = async (req, res) => {
 		return res.status(500).send({ error: "Erreur serveur" });
 	}
 };
-exports.getAllUsers = async (req, res, next) => {
+exports.getAllUsers = async (req, res) => {
 	try {
 		const users = await db.User.findAll({
-			attributes: ["id", "firstName", "lastName", "email", "createdAt", "updateAt"],
+			attributes: ["id", "firstName", "lastName", "email"],
 		});
 		res.status(200).send(users);
 	} catch (error) {

@@ -13,9 +13,11 @@
         </v-responsive>
         <v-card-text>
           <div class="grey--text mb-3">
-            Firstname : hello {{ user.firstName }}
+            Firstname : hello {{ $store.state.user.firstName }}
           </div>
-          <div class="grey--text mb-3">LastName :</div>
+          <div class="grey--text mb-3">
+            LastName : hello {{ $store.state.user.lastName }}
+          </div>
           <div class="grey--text mb-3">Email :</div>
           <div class="d-flex flex-column">
             <label for="bio" class="mb-5">Ma bio</label>
@@ -36,12 +38,7 @@ export default {
   data() {
     return {};
   },
-  methods: {
-    async getUser() {
-      const user = localStorage.getItem('userSession');
-      console.log(user);
-    },
-  },
+  methods: {},
   computed: {
     user() {
       return this.$store.getters.user;
