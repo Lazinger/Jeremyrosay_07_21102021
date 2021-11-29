@@ -20,11 +20,11 @@ function issueJwt(user) {
 }
 
 function getUserId(req) {
-	// on vérifie le userId du token
+	// on vérifie le userId associé au token
 	const token = req.headers.authorization.split(" ")[1]; // on récupère le token de la requête entrante
 	const decodedToken = jwt.verify(token, `${TOKEN}`); // on le vérifie
 	const userId = decodedToken.sub;
-	return userId; // on récupère l'id du token
+	return userId; // on récupère l'id de l'user
 }
 
 module.exports.issueJwt = issueJwt;

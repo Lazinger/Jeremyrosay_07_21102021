@@ -36,7 +36,6 @@ const createStore = () => {
         state.users = users;
       },
       LOG_OUT(state) {
-        sessionStorage.clear();
         state.token = null;
         state.user = null;
         state.isLoggedIn = false;
@@ -75,6 +74,9 @@ const createStore = () => {
     getters: {
       user(state) {
         return state.user;
+      },
+      isLogged(state) {
+        return state.isLoggedIn;
       },
     },
   });

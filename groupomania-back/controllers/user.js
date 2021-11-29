@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const db = require("../models");
 const token = require("../middlewares/token");
 const auth = require("../middlewares/auth");
-// const fs = require("fs");
+const fs = require("fs");
 
 exports.signup = async (req, res) => {
 	try {
@@ -62,11 +62,12 @@ exports.login = async (req, res) => {
 	}
 };
 exports.getUser = async (req, res) => {
-	// on trouve l'utilisateur et on renvoie l'objet user
+	// On cherche l'utilisateur dans la DB, pour lequel params.id est = id et on le stocke dans la const user
 	try {
 		const user = await db.User.findOne({
 			where: { id: req.params.id },
 		});
+		//Renvoi l'objet user
 		res.status(200).send(user);
 	} catch (error) {
 		return res.status(500).send({ error: "Erreur serveur" });
