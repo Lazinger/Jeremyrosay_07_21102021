@@ -6,11 +6,18 @@
         flat
         class="text-left ma-3 d-flex flex-column justify-center space-around"
       >
-        <v-responsive class="pt-4 text-center">
+        <v-responsive v-if="user.photo" class="pt-4 text-center">
+          <v-avatar size="100">
+            <img src="user.photo" alt="anon" />
+          </v-avatar>
+        </v-responsive>
+        <v-responsive v-else class="pt-4 text-center">
           <v-avatar size="100">
             <img src="../static/image-1.png" alt="anon" />
           </v-avatar>
         </v-responsive>
+        <v-btn>Modifier image profil</v-btn>
+
         <v-card-text>
           <div class="grey--text mb-3">
             Prénom : {{ $store.state.user.firstName }}

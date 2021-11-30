@@ -83,3 +83,45 @@ exports.getAllUsers = async (req, res) => {
 		return res.status(500).send({ error: "Erreur Serveur" });
 	}
 };
+exports.updateAccount = async (req, res) => {
+	// modifier le profil
+	const id = req.params.id;
+	try {
+		const userId = token.getUserId(req);
+		let newPhoto;
+		let user = await db.User.findOne({ where: { id: id } }); // on trouve le user
+		if (userId === user.id) {
+			if (req.file && user.photo) {
+				newPhoto = `${req.protocol}://${req.get("host")}/pictures/${req.file.filename}`;
+				const filename = user.photo.split("/upload")[1];
+				fs.unlink(`upload/${filename}`, (err) => {
+					// s'il y avait déjà une photo on la supprime
+					if (err) console.log(err);
+					else {
+						console.log(`Deleted file: upload/${filename}`);
+					}
+				});
+			} else if (req.file) {
+				newPhoto = `${req.protocol}://${req.get("host")}/pictures/${req.file.filename}`;
+			}
+			if (newPhoto) {
+				user.photo = newPhoto;
+			}
+			if (req.body.bio) {
+				user.bio = req.body.bio;
+			}
+			if (req.body.pseudo) {
+				user.pseudo = req.body.pseudo;
+			}
+			const newUser = await user.save({ fields: [, "aboutMe", "photo"] }); // on sauvegarde les changements dans la bdd
+			res.status(200).json({
+				user: newUser,
+				messageRetour: "Votre profil a bien été modifié",
+			});
+		} else {
+			res.status(400).json({ messageRetour: "Vous n'avez pas les droits requis" });
+		}
+	} catch (error) {
+		return res.status(500).send({ error: "Erreur serveur" });
+	}
+};

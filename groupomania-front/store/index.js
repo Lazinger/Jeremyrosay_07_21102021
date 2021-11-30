@@ -56,16 +56,30 @@ const createStore = () => {
       getUserById({ commit }) {
         let id = this.state.user.id;
         console.log(id);
-        this.$axios.$get('/accounts/' + id).then((response) => {
-          const user = response.data;
-          commit('GET_USER_BY_ID', user);
-        });
+        this.$axios
+          .$get('/accounts/' + id, {
+            headers: { Authorization: this.state.token },
+          })
+          .then(
+            (response) => {
+              const user = response.data;
+              console.log('userId', user);
+              commit('GET_USER_BY_ID', user);
+            },
+            {
+              headers: { Authorization: this.state.token },
+            }
+          );
       },
       getUsers({ commit }) {
-        this.$axios.$get('/accounts').then((response) => {
-          const users = response.data;
-          commit('GET_USERS', users);
-        });
+        this.$axios
+          .$get('/accounts', {
+            headers: { Authorization: this.state.token },
+          })
+          .then((response) => {
+            const users = response.data;
+            commit('GET_USERS', users);
+          });
       },
       logOut({ commit }) {
         commit('LOG_OUT');
