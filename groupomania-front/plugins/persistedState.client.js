@@ -3,6 +3,6 @@ import createPersistedState from 'vuex-persistedstate';
 
 export default ({ store }) => {
   createPersistedState({
-    storage: window.sessionStorage,
+    storage: window.localStorage,
   })(store);
 };

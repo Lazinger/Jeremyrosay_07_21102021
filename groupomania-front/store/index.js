@@ -36,11 +36,19 @@ const createStore = () => {
         state.users = users;
       },
       LOG_OUT(state) {
+        localStorage.clear();
         state.token = null;
         state.user = null;
         state.isLoggedIn = false;
         state.message = '';
         state.error = '';
+      },
+      UPDATE_ACCOUNT(state, id, user) {
+        Object.assign(
+          state.users.find((element) => element.id === id),
+          user
+        );
+        state.message = 'compte modifié';
       },
     },
     actions: {
@@ -55,34 +63,43 @@ const createStore = () => {
       },
       getUserById({ commit }) {
         let id = this.state.user.id;
+        let config = {
+          headers: {
+            Authorization: this.state.token,
+          },
+        };
+
         console.log(id);
-        this.$axios
-          .$get('/accounts/' + id, {
-            headers: { Authorization: this.state.token },
-          })
-          .then(
-            (response) => {
-              const user = response.data;
-              console.log('userId', user);
-              commit('GET_USER_BY_ID', user);
-            },
-            {
-              headers: { Authorization: this.state.token },
-            }
-          );
+        this.$axios.$get('accounts/' + id, config).then((user) => {
+          console.log(user);
+          commit('GET_USER_BY_ID', user);
+        });
       },
       getUsers({ commit }) {
-        this.$axios
-          .$get('/accounts', {
-            headers: { Authorization: this.state.token },
-          })
-          .then((response) => {
-            const users = response.data;
-            commit('GET_USERS', users);
-          });
+        let config = {
+          headers: {
+            Authorization: this.state.token,
+          },
+        };
+        this.$axios.$get('accounts', config).then((response) => {
+          const users = response.data;
+          commit('GET_USERS', users);
+        });
       },
       logOut({ commit }) {
         commit('LOG_OUT');
+      },
+      updateAccount({ commit }, data) {
+        let id = this.state.user.id;
+        let config = {
+          headers: {
+            Authorization: this.state.token,
+          },
+        };
+        this.$axios.$put(`accounts/${id}`, data, config).then((response) => {
+          const newUser = response;
+          commit('UPDATE_ACCOUNT', id, newUser);
+        });
       },
     },
     getters: {
@@ -91,6 +108,12 @@ const createStore = () => {
       },
       isLogged(state) {
         return state.isLoggedIn;
+      },
+      messageRetour(state) {
+        return state.message;
+      },
+      errorMessage(state) {
+        return state.error;
       },
     },
   });

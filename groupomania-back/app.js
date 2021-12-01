@@ -3,10 +3,12 @@ const helmet = require("helmet");
 // const path = require("path");
 const { sequelize } = require("./models/index");
 const userRoutes = require("./routes/user");
+const cors = require("cors");
 const app = express();
 
 app.use(express.json());
 app.use(helmet());
+app.use(cors());
 
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -15,6 +17,7 @@ app.use((req, res, next) => {
 		"Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
 	);
 	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+	res.setHeader("Acces-Control-Max-Age", "86400");
 
 	next();
 });
