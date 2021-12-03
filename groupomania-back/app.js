@@ -3,6 +3,7 @@ const helmet = require("helmet");
 const path = require("path");
 const { sequelize } = require("./models/index");
 const userRoutes = require("./routes/user");
+const postRoutes = require("./routes/post");
 const cors = require("cors");
 const app = express();
 
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 
 //routes
 app.use("", userRoutes);
+app.use("", postRoutes);
 app.use("./pictures", express.static(path.join(__dirname, "./pictures")));
 
 const databaseTestConnection = async function () {

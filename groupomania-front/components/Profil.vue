@@ -7,7 +7,7 @@
         class="text-left ma-3 d-flex flex-column justify-center space-around"
       >
         <client-only>
-          <v-responsive v-if="user && user.photo" class="pt-4 text-center">
+          <v-responsive v-if="displayPhoto" class="pt-4 text-center">
             <v-avatar size="100">
               <img :src="user.photo" alt="anon" />
             </v-avatar>
@@ -17,8 +17,10 @@
               <img src="../static/image-1.png" alt="anon" />
             </v-avatar>
           </v-responsive>
+          <div>
+            <v-btn small @click="togglePhoto">Modifier image profil</v-btn>
+          </div>
         </client-only>
-        <v-btn @click="togglePhoto">Modifier image profil</v-btn>
 
         <client-only>
           <div v-if="updatePhoto" class="d-flex justify-center mt-5">
@@ -36,31 +38,27 @@
         </client-only>
 
         <v-card-text>
-          <div class="grey--text mb-3">
-            Prénom : {{ $store.state.user.firstName }}
-          </div>
-          <div class="grey--text mb-3">
-            Nom : {{ $store.state.user.lastName }}
-          </div>
-          <div class="grey--text mb-3">
-            Email : {{ $store.state.user.email }}
-          </div>
+          <div class="black--text mb-3">Prénom : {{ user.firstName }}</div>
+          <div class="black--text mb-3">Nom : {{ user.lastName }}</div>
+          <div class="black--text mb-3">Email : {{ user.email }}</div>
 
-          <v-responsive v-if="displayAboutMe">
+          <v-responsive>
             <div
               class="d-flex flex-column justify-space-between"
               max-width="70%"
             >
-              Ta bio:
-              <div>
-                <!-- <span>{{ user?.aboutMe }}</span> -->
+              <div class="black--text mb-3">
+                Ton histoire :
+                <span class="grey--text mb-3">
+                  {{ user.aboutMe }}
+                </span>
               </div>
             </div>
             <v-btn
               @click="toggleAboutMe"
               class="ma-2"
               outlined
-              small
+              x-small
               fab
               color="indigo"
             >
@@ -111,14 +109,27 @@ export default {
     return {
       updateAboutMe: false,
       updatePhoto: false,
-      options: false,
       displayAboutMe: true,
+      displayPhoto: true,
+      options: false,
       errorMessage: null,
       messageRetour: null,
       isValid: true,
       newAboutMe: '',
       aboutMeRules: [(v) => v.length <= 400 || 'Max 400 caractères'],
+      file: '',
     };
+  },
+  computed: {
+    beforeMount() {
+      this.$store.dispatch('getUserById');
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    isLogged() {
+      return this.$store.getters.isLogged;
+    },
   },
   methods: {
     togglePhoto() {
@@ -140,8 +151,21 @@ export default {
       this.$store.dispatch('logOut');
       setTimeout(() => {
         this.$router.push('/');
-      }, 1000);
+      }, 1500);
     },
+    // onSubmit() {
+    //   const formData = new FormData();
+    //   formData.append('aboutMe', this.newAboutMe);
+
+    //   this.$store.dispatch('getUsers');
+    //   this.$store.dispatch('getUserById', this.user.id);
+    //   this.$store.dispatch('updateAccount', formData);
+
+    //   this.updateAboutMe = false;
+
+    //   this.options = false;
+    //   this.displayAboutMe = true;
+    // },
     onSubmit() {
       const formData = new FormData();
 
@@ -149,21 +173,16 @@ export default {
       if (this.file !== null) {
         formData.append('image', this.file);
       }
+      this.$store.dispatch('getUsers');
       this.$store.dispatch('getUserById', this.user.id);
       this.$store.dispatch('updateAccount', formData);
+      this.$store.dispatch('getUserById', this.user.id);
+
       this.updateAboutMe = false;
       this.updatePhoto = false;
       this.options = false;
       this.displayAboutMe = true;
       this.displayPhoto = true;
-    },
-  },
-  computed: {
-    user() {
-      return this.$store.getters.user;
-    },
-    isLogged() {
-      return this.$store.getters.isLogged;
     },
   },
 };

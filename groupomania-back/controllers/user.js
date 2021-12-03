@@ -93,12 +93,12 @@ exports.updateAccount = async (req, res) => {
 		if (userId === user.id) {
 			if (req.file && user.photo) {
 				newPhoto = `${req.protocol}://${req.get("host")}/pictures/${req.file.filename}`;
-				const filename = user.photo.split("/pictures")[1];
-				fs.unlink(`pictures/${filename}`, (err) => {
+				const filename = user.photo.split("/pictures/")[1];
+				fs.unlink(`/pictures/${filename}`, (err) => {
 					// s'il y avait déjà une photo on la supprime
 					if (err) console.log(err);
 					else {
-						console.log(`Deleted file: upload/${filename}`);
+						console.log(`Deleted file: pictures/${filename}`);
 					}
 				});
 			} else if (req.file) {
@@ -111,7 +111,7 @@ exports.updateAccount = async (req, res) => {
 				user.aboutMe = req.body.aboutMe;
 			}
 
-			const newUser = await user.save({ fields: [, "aboutMe", "photo"] }); // on sauvegarde les changements dans la bdd
+			const newUser = await user.save({ fields: ["aboutMe", "photo"] }); // on sauvegarde les changements dans la bdd
 			res.status(200).json({
 				user: newUser,
 				messageRetour: "Votre profil a bien été modifié",

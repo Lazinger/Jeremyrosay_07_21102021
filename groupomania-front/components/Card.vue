@@ -2,9 +2,9 @@
   <div class="card">
     <v-container>
       <v-row justify="space-around">
-        <v-card width="800">
+        <v-card width="600">
           <v-img
-            height="600px"
+            height=""
             src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
           >
             <v-app-bar flat color="rgba(0, 0, 0, 0)">
@@ -86,11 +86,7 @@ export default {
       console.log('toto');
     },
   },
-  computed: {
-    counter() {
-      return this.$store.counter;
-    },
-  },
+  computed: {},
 };
 </script>
 
