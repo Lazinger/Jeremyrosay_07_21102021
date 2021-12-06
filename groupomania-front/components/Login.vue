@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import api from '../plugins/userAuthentication';
+import userAuthentication from '../plugins/userAuthentication';
 export default {
   name: 'Login',
 
@@ -68,7 +68,7 @@ export default {
   methods: {
     async login() {
       try {
-        const res = await api.login(
+        const res = await userAuthentication.login(
           this.$axios,
           {
             email: this.email,

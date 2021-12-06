@@ -1,7 +1,5 @@
 <template>
-  <v-app>
-    <Cards />
-  </v-app>
+  <Cards />
 </template>
 
 <script>

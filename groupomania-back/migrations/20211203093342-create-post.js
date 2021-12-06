@@ -1,4 +1,5 @@
 "use strict";
+const { DataTypes } = require("Sequelize");
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		await queryInterface.createTable("posts", {
@@ -7,6 +8,14 @@ module.exports = {
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER,
+			},
+			userId: {
+				allowNull: false,
+				type: Sequelize.INTEGER,
+				references: {
+					model: "Users",
+					key: "id",
+				},
 			},
 			message: {
 				allowNull: false,

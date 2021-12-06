@@ -7,6 +7,8 @@ const createStore = () => {
       user: {},
       isLoggedIn: false,
       users: [],
+      posts: [],
+      post: {},
       message: '',
       error: '',
     },
@@ -49,6 +51,14 @@ const createStore = () => {
           user
         );
         state.message = 'compte modifié';
+      },
+      // Posts
+
+      GET_POSTS(state, posts) {
+        state.posts = posts;
+      },
+      GET_POST_BY_ID(state, post) {
+        state.post = post;
       },
     },
     actions: {
@@ -101,10 +111,38 @@ const createStore = () => {
           commit('UPDATE_ACCOUNT', id, newUser);
         });
       },
+      // Posts
+
+      getPosts({ commit }) {
+        let config = {
+          headers: {
+            Authorization: this.state.token,
+          },
+        };
+        this.$axios.$get(`posts`, config).then((response) => {
+          const posts = response.data;
+          commit('GET_POSTS, posts');
+        });
+      },
+      getPostById({ commit }) {
+        let id = this.state.user.id;
+        let config = {
+          headers: {
+            Authorization: this.state.token,
+          },
+        };
+        this.$axios.$get('posts/' + id, config).then((response) => {
+          const post = response.data;
+          commit('GET_POST_BY_ID', post);
+        });
+      },
     },
     getters: {
       user(state) {
         return state.user;
+      },
+      users(state) {
+        return state.users;
       },
       isLogged(state) {
         return state.isLoggedIn;
@@ -114,6 +152,12 @@ const createStore = () => {
       },
       errorMessage(state) {
         return state.error;
+      },
+      post(state) {
+        return state.post;
+      },
+      posts(state) {
+        return state.posts;
       },
     },
   });
