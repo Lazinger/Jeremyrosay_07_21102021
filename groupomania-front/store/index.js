@@ -114,14 +114,10 @@ const createStore = () => {
       // Posts
 
       getPosts({ commit }) {
-        let config = {
-          headers: {
-            Authorization: this.state.token,
-          },
-        };
-        this.$axios.$get(`posts`, config).then((response) => {
-          const posts = response.data;
-          commit('GET_POSTS, posts');
+        this.$axios.$get(`posts`).then((response) => {
+          const posts = response;
+          console.log('posts from store', posts);
+          commit('GET_POSTS', posts);
         });
       },
       getPostById({ commit }) {

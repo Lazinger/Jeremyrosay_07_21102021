@@ -85,7 +85,7 @@ export default {
         //   JSON.stringify({ token: data.token, userId: data.user.id })
         // );
 
-        console.log(data);
+        console.log('data', data);
         this.$store.dispatch('setToken', data.token);
         this.$store.dispatch('setUser', data.user);
         this.$store.dispatch('getUserById', data.user.id);
