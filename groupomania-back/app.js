@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 //routes
 app.use("", userRoutes);
 app.use("", postRoutes);
-app.use("./pictures", express.static(path.join(__dirname, "./pictures")));
+app.use("/pictures", express.static(path.join(__dirname, "pictures")));
 
 const databaseTestConnection = async function () {
 	try {

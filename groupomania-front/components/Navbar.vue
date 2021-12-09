@@ -7,12 +7,11 @@
           @click="drawer = !drawer"
         ></v-app-bar-nav-icon>
         <v-toolbar-title class="text-uppercase grey--text">
-          <nuxt-link to="/home" class="font-weight-light"
-            >GroupoMANIA</nuxt-link
-          >
+          <nuxt-link to="/" class="font-weight-light">GroupoMANIA</nuxt-link>
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
+        <addPost />
         <client-only>
           <div v-if="isLogged === true">
             <v-btn @click="logOut" text color="grey">
@@ -91,17 +90,12 @@ export default {
         {
           icon: 'mdi-view-dashboard',
           text: 'Accueil',
-          route: '/home',
+          route: '/',
         },
         {
           icon: 'mdi-folder',
           text: 'Mon profil',
           route: '/profil',
-        },
-        {
-          icon: 'mdi-account',
-          text: 'Team',
-          route: '/team',
         },
       ],
     };

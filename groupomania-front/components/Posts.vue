@@ -3,33 +3,26 @@
     <v-container>
       <v-row justify="space-around">
         <client-only>
-          <v-card
-            v-for="post in $store.state.posts.length"
-            :key="post.length"
-            width="600"
-          >
+          <v-card v-for="post in posts" :key="post.id" width="600" class="my-4">
+            <v-card-title>
+              <v-avatar size="56">
+                <img
+                  v-if="post.User.photo"
+                  :src="post.User.photo"
+                  alt="Photo de profil"
+                />
+                <img v-else src="../static/image-1.png" />
+              </v-avatar>
+              <p class="ml-3" color="black">
+                {{ post.User.firstName }}
+              </p>
+            </v-card-title>
             <v-img
               src="https://img-19.ccm2.net/WNCe54PoGxObY8PCXUxMGQ0Gwss=/480x270/smart/d8c10e7fd21a485c909a5b4c5d99e611/ccmcms-commentcamarche/20456790.jpg"
               height="200"
             >
               <v-app-bar flat color="rgba(0, 0, 0, 0)">
-                <v-card-title class="white--text mt-8">
-                  <v-avatar size="56">
-                    <!-- <img
-                    v-if="post.User.photo"
-                    :src="post.User.photo"
-                    alt="Photo de profil"
-                  /> -->
-                    <!-- <img
-                    v-else-if="
-                      post.User.photo === null &&
-                      post.User.id === $store.state.user.id
-                    "
-                    src="../static/image-1.png"
-                  /> -->
-                  </v-avatar>
-                  <p class="ml-3">John Doe</p>
-                </v-card-title>
+                <v-card-title class="mt-8"> </v-card-title>
 
                 <v-spacer></v-spacer>
 
@@ -40,8 +33,8 @@
             </v-img>
 
             <v-card-text>
-              <p v-for="post in $store.state.posts" :key="post.message">
-                {{ post }}
+              <p>
+                {{ post.message }}
               </p>
             </v-card-text>
           </v-card>
@@ -63,6 +56,16 @@ export default {
       errorMessage: null,
     };
   },
+  computed: {
+    async beforeMount() {
+      const before = await this.wall();
+      return before;
+    },
+    posts: function () {
+      console.log('ZE STORE', this.$store.state.posts);
+      return this.$store.state.posts;
+    },
+  },
   methods: {
     async wall() {
       try {
@@ -74,7 +77,6 @@ export default {
       } catch (error) {}
     },
   },
-  computed: {},
 };
 </script>
 

@@ -60,6 +60,10 @@ const createStore = () => {
       GET_POST_BY_ID(state, post) {
         state.post = post;
       },
+      CREATE_POST(state, post) {
+        state.posts = [post, ...state.posts];
+        state.message = 'post créé';
+      },
     },
     actions: {
       setToken({ commit }, token) {
@@ -131,6 +135,25 @@ const createStore = () => {
           const post = response.data;
           commit('GET_POST_BY_ID', post);
         });
+      },
+      createPost({ commit }, post) {
+        let config = {
+          headers: {
+            Authorization: this.state.token,
+          },
+        };
+        this.$axios
+          .$post(`add`, post, config)
+          .then((response) => {
+            const post = response;
+            commit('CREATE_POST', post);
+          })
+          .then(() => {
+            this.$axios.$get(`posts`).then((response) => {
+              const posts = response;
+              commit('GET_POSTS', posts);
+            });
+          });
       },
     },
     getters: {

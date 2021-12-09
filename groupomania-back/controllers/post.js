@@ -21,3 +21,37 @@ exports.getAllPosts = async (req, res, next) => {
 		});
 	}
 };
+exports.createPost = async (req, res) => {
+	const userId = token.getUserId(req);
+	let imageUrl;
+	try {
+		const user = await db.User.findOne({
+			attributes: ["firstName", "id", "photo"],
+			where: { id: userId },
+		});
+		if (user !== null) {
+			if (req.file) {
+				imageUrl = `${req.protocol}://${req.get("host")}/pictures/${req.file.filename}`;
+			} else {
+				imageUrl = null;
+			}
+			const post = await db.Post.create({
+				include: [
+					{
+						model: db.User,
+						attributes: ["firstName", "photo", "id"],
+					},
+				],
+				message: req.body.message,
+				imageUrl: image,
+				UserId: user.id,
+			});
+
+			res.status(201).json({ post: post, messageRetour: "Votre post est ajouté" });
+		} else {
+			res.status(400).send({ error: "Erreur " });
+		}
+	} catch (error) {
+		return res.status(500).send({ error: "Erreur serveur" });
+	}
+};

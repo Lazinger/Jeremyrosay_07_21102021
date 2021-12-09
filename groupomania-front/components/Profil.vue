@@ -7,23 +7,33 @@
         class="text-left ma-3 d-flex flex-column justify-center space-around"
       >
         <client-only>
-          <v-responsive v-if="displayPhoto" class="pt-4 text-center">
-            <v-avatar size="100">
-              <img :src="user.photo" alt="anon" />
+          <v-responsive class="pt-4 text-center">
+            <v-avatar size="100px">
+              <img v-if="user.photo" :src="user.photo" alt="anon" />
+              <img
+                v-else
+                src="https://cdn.vuetifyjs.com/images/john.jpg"
+                alt="John"
+              />
             </v-avatar>
           </v-responsive>
-          <v-responsive v-else class="pt-4 text-center">
-            <v-avatar size="100">
-              <img src="../static/image-1.png" alt="anon" />
-            </v-avatar>
-          </v-responsive>
-          <div>
-            <v-btn small @click="togglePhoto">Modifier image profil</v-btn>
-          </div>
         </client-only>
+        <v-responsive class="d-flex text-center">
+          <div>
+            <input
+              @change="uploadImage"
+              type="file"
+              accept="image/png, image/jpeg,
+                    image/bmp, image/gif"
+              ref="file"
+              name="image"
+              class="input-group--focused mt-5"
+            />
+          </div>
+        </v-responsive>
 
-        <client-only>
-          <div v-if="updatePhoto" class="d-flex justify-center mt-5">
+        <!-- <client-only>
+          <div class="d-flex justify-center mt-5">
             <label for="image" class="mr-3"></label>
             <input
               @change="uploadImage"
@@ -35,7 +45,7 @@
               class="input-group--focused"
             />
           </div>
-        </client-only>
+        </client-only> -->
 
         <v-card-text>
           <div class="black--text mb-3">Prénom : {{ user.firstName }}</div>
@@ -90,6 +100,11 @@
                     >
                   </div>
                 </v-card-text>
+              </div>
+              <div class="d-flex justify-center">
+                <v-btn @click="onSubmit(user.id)" :disabled="!isValid"
+                  >Envoyer</v-btn
+                >
               </div>
             </client-only>
           </div>
@@ -153,19 +168,7 @@ export default {
         this.$router.push('/');
       }, 1500);
     },
-    // onSubmit() {
-    //   const formData = new FormData();
-    //   formData.append('aboutMe', this.newAboutMe);
 
-    //   this.$store.dispatch('getUsers');
-    //   this.$store.dispatch('getUserById', this.user.id);
-    //   this.$store.dispatch('updateAccount', formData);
-
-    //   this.updateAboutMe = false;
-
-    //   this.options = false;
-    //   this.displayAboutMe = true;
-    // },
     onSubmit() {
       const formData = new FormData();
 

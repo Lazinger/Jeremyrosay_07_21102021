@@ -1,9 +1,0 @@
-<template>
-  <h1>This a team page</h1>
-</template>
-
-<script>
-export default {}
-</script>
-
-<style></style>
