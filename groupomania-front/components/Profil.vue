@@ -6,6 +6,7 @@
         flat
         class="text-left ma-3 d-flex flex-column justify-center space-around"
       >
+        <v-card-title>Voici ta page profil</v-card-title>
         <client-only>
           <v-responsive class="pt-4 text-center">
             <v-avatar size="100px">
@@ -27,25 +28,10 @@
                     image/bmp, image/gif"
               ref="file"
               name="image"
-              class="input-group--focused mt-5"
+              class="mt-5"
             />
           </div>
         </v-responsive>
-
-        <!-- <client-only>
-          <div class="d-flex justify-center mt-5">
-            <label for="image" class="mr-3"></label>
-            <input
-              @change="uploadImage"
-              type="file"
-              accept="image/png, image/jpeg,
-                    image/bmp, image/gif"
-              ref="file"
-              name="image"
-              class="input-group--focused"
-            />
-          </div>
-        </client-only> -->
 
         <v-card-text>
           <div class="black--text mb-3">Prénom : {{ user.firstName }}</div>
@@ -62,18 +48,18 @@
                 <span class="grey--text mb-3">
                   {{ user.aboutMe }}
                 </span>
+                <v-btn
+                  @click="toggleAboutMe"
+                  class="ma-2"
+                  outlined
+                  x-small
+                  fab
+                  color="indigo"
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
               </div>
             </div>
-            <v-btn
-              @click="toggleAboutMe"
-              class="ma-2"
-              outlined
-              x-small
-              fab
-              color="indigo"
-            >
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
           </v-responsive>
           <v-textarea
             v-if="updateAboutMe"
@@ -88,19 +74,6 @@
 
           <div class="d-flex flex-column">
             <client-only>
-              <div>
-                <v-card-text v-if="options" class="font-weight-light">
-                  <br />
-                  <div class="danger-alert" v-html="errorMessage" />
-                  <div class="danger-alert" v-html="messageRetour" />
-
-                  <div class="d-flex justify-center">
-                    <v-btn @click="onSubmit(user.id)" :disabled="!isValid"
-                      >Envoyer</v-btn
-                    >
-                  </div>
-                </v-card-text>
-              </div>
               <div class="d-flex justify-center">
                 <v-btn @click="onSubmit(user.id)" :disabled="!isValid"
                   >Envoyer</v-btn

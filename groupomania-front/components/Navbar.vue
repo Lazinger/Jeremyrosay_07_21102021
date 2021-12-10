@@ -11,7 +11,8 @@
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
-        <addPost />
+
+        <v-btn to="/addPost">Ajouter un post</v-btn>
         <client-only>
           <div v-if="isLogged === true">
             <v-btn @click="logOut" text color="grey">

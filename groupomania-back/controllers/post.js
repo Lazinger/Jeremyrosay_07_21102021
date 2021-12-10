@@ -23,7 +23,7 @@ exports.getAllPosts = async (req, res, next) => {
 };
 exports.createPost = async (req, res) => {
 	const userId = token.getUserId(req);
-	let imageUrl;
+	let image;
 	try {
 		const user = await db.User.findOne({
 			attributes: ["firstName", "id", "photo"],
@@ -31,9 +31,9 @@ exports.createPost = async (req, res) => {
 		});
 		if (user !== null) {
 			if (req.file) {
-				imageUrl = `${req.protocol}://${req.get("host")}/pictures/${req.file.filename}`;
+				image = `${req.protocol}://${req.get("host")}/pictures/${req.file.filename}`;
 			} else {
-				imageUrl = null;
+				image = null;
 			}
 			const post = await db.Post.create({
 				include: [
@@ -43,15 +43,15 @@ exports.createPost = async (req, res) => {
 					},
 				],
 				message: req.body.message,
-				imageUrl: image,
+				image: image,
 				UserId: user.id,
 			});
 
 			res.status(201).json({ post: post, messageRetour: "Votre post est ajouté" });
 		} else {
-			res.status(400).send({ error: "Erreur " });
+			res.status(400).send({ error: "Erreur 400 controllers" });
 		}
 	} catch (error) {
-		return res.status(500).send({ error: "Erreur serveur" });
+		return res.status(500).send({ error: "Erreur serveur controllers" });
 	}
 };

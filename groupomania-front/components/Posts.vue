@@ -3,7 +3,7 @@
     <v-container>
       <v-row justify="space-around">
         <client-only>
-          <v-card v-for="post in posts" :key="post.id" width="600" class="my-4">
+          <v-card v-for="post in posts" :key="post.id" width="500" class="my-4">
             <v-card-title>
               <v-avatar size="56">
                 <img
@@ -17,10 +17,7 @@
                 {{ post.User.firstName }}
               </p>
             </v-card-title>
-            <v-img
-              src="https://img-19.ccm2.net/WNCe54PoGxObY8PCXUxMGQ0Gwss=/480x270/smart/d8c10e7fd21a485c909a5b4c5d99e611/ccmcms-commentcamarche/20456790.jpg"
-              height="200"
-            >
+            <v-img :src="post.image" height="500">
               <v-app-bar flat color="rgba(0, 0, 0, 0)">
                 <v-card-title class="mt-8"> </v-card-title>
 
@@ -50,16 +47,15 @@
 <script>
 import getPosts from '../plugins/getPosts';
 export default {
-  name: 'Cards',
+  name: 'Posts',
   data: () => {
     return {
       errorMessage: null,
     };
   },
   computed: {
-    async beforeMount() {
-      const before = await this.wall();
-      return before;
+    beforeMount() {
+      this.wall();
     },
     posts: function () {
       console.log('ZE STORE', this.$store.state.posts);
@@ -71,9 +67,8 @@ export default {
       try {
         const res = await getPosts.wall(this.$axios, this.$store);
         let data = res;
-        console.log('data', data);
+
         this.$store.dispatch('getPosts', data);
-        console.log('storeStatePosts', this.$store.state.posts);
       } catch (error) {}
     },
   },

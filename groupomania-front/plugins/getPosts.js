@@ -2,8 +2,7 @@ export default {
   async wall(axios, store) {
     try {
       const res = await axios.get('/posts');
-      console.log('Reponse', res);
-      console.log('res.data', res.data);
+
       store.commit('GET_POSTS', res.data);
 
       console.log(res);

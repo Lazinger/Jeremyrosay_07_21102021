@@ -143,13 +143,14 @@ const createStore = () => {
           },
         };
         this.$axios
-          .$post(`add`, post, config)
+          .$post(`addPost`, post, config)
           .then((response) => {
+            console.log(response);
             const post = response;
             commit('CREATE_POST', post);
           })
           .then(() => {
-            this.$axios.$get(`posts`).then((response) => {
+            this.$axios.$get(`posts`, config).then((response) => {
               const posts = response;
               commit('GET_POSTS', posts);
             });

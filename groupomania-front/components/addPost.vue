@@ -1,18 +1,13 @@
 <template>
-  <v-row justify="center">
-    <v-dialog v-model="dialog" temporary max-width="600px">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn text color="blue" dark v-bind="attrs" v-on="on">
-          Ajouter un post
-        </v-btn>
-      </template>
-      <v-card v-if="isLogged === true">
+  <v-form>
+    <v-row justify="center">
+      <v-card v-if="isLogged === true" class="">
         <v-card-title>
           <span class="text-h5">Ajouter un post</span>
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-row>
+            <v-row class="d-flex">
               <v-col cols="12" sm="6" md="12">
                 <div>
                   <input
@@ -64,15 +59,14 @@
           <NuxtLink to="/signup">ici</NuxtLink> pour vous inscrire</v-card-text
         >
       </v-card>
-    </v-dialog>
-  </v-row>
+    </v-row>
+  </v-form>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      dialog: false,
       isValid: true,
       file: '',
       message: '',
@@ -94,12 +88,14 @@ export default {
     onSubmit() {
       const formData = new FormData();
       formData.append('message', this.message);
-
       if (this.file !== null) {
         formData.append('image', this.file);
       }
+      console.log(this.message);
+      console.log(this.file);
+
       this.$store.dispatch('createPost', formData);
-      this.$router.push('/');
+      //   this.$router.push('/');
     },
   },
 };
