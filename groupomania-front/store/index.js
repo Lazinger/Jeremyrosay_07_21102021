@@ -50,7 +50,7 @@ const createStore = () => {
           state.users.find((element) => element.id === id),
           user
         );
-        state.message = 'compte modifié';
+        state.message = 'Le compte à bien été modifié';
       },
       // Posts
 
@@ -62,7 +62,11 @@ const createStore = () => {
       },
       CREATE_POST(state, post) {
         state.posts = [post, ...state.posts];
-        state.message = 'post créé';
+        state.message = 'Le post à bien été créé';
+      },
+      DELETE_POST(state, id) {
+        state.posts = [...state.posts.filter((element) => element.id !== id)];
+        state.message = 'Le post à bien été supprimé';
       },
     },
     actions: {
@@ -152,6 +156,24 @@ const createStore = () => {
           .then(() => {
             this.$axios.$get(`posts`, config).then((response) => {
               const posts = response;
+              commit('GET_POSTS', posts);
+            });
+          });
+      },
+      deletePost({ commit }, id) {
+        let config = {
+          headers: {
+            Authorization: this.state.token,
+          },
+        };
+        this.$axios
+          .$delete('posts/' + id, config, id)
+          .then(() => {
+            commit('DELETE_POST', id);
+          })
+          .then(() => {
+            this.$axios.$get('posts').then((response) => {
+              const posts = response.data;
               commit('GET_POSTS', posts);
             });
           });

@@ -55,3 +55,27 @@ exports.createPost = async (req, res) => {
 		return res.status(500).send({ error: "Erreur serveur controllers" });
 	}
 };
+
+exports.deletePost = async (req, res) => {
+	try {
+		const userId = token.getUserId(req);
+		const adminVerification = await db.User.findOne({ where: { id: userId } });
+		const post = await db.Post.findOne({ where: { id: req.params.id } });
+		if (userId === post.UserId || adminVerification.admin === true) {
+			if (post.image) {
+				const filename = post.image.split("/pictures")[1];
+				fs.unlink(`pictures/${filename}`, () => {
+					db.Post.destroy({ where: { id: post.id } });
+					res.status(200).json({ message: "Post supprimé" });
+				});
+			} else {
+				db.Post.destroy({ where: { id: post.id } }, { truncate: true });
+				res.status(200).json({ message: "Post supprimé" });
+			}
+		} else {
+			res.status(400).json({ message: "Vous n'avez pas les droits requis" });
+		}
+	} catch (error) {
+		return res.status(500).send({ error: "Erreur serveur" });
+	}
+};

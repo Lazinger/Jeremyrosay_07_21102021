@@ -20,6 +20,7 @@ exports.signup = async (req, res) => {
 				lastName: req.body.lastName,
 				email: req.body.email,
 				password: hash,
+				admin: false,
 			});
 			const tokenObject = await token.issueJwt(newUser);
 			res.status(201).send({

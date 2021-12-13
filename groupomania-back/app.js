@@ -28,6 +28,10 @@ app.use("", userRoutes);
 app.use("", postRoutes);
 app.use("/pictures", express.static(path.join(__dirname, "pictures")));
 
+const syncDatabase = async function () {
+	await sequelize.sync({ alter: true });
+	require("./config/admin");
+};
 const databaseTestConnection = async function () {
 	try {
 		await sequelize.authenticate();
@@ -37,5 +41,6 @@ const databaseTestConnection = async function () {
 	}
 };
 databaseTestConnection();
+syncDatabase();
 
 module.exports = app;

@@ -19,19 +19,39 @@
             </v-card-title>
             <v-img :src="post.image" height="500">
               <v-app-bar flat color="rgba(0, 0, 0, 0)">
-                <v-card-title class="mt-8"> </v-card-title>
-
                 <v-spacer></v-spacer>
 
-                <v-btn color="white" icon>
+                <!-- <v-btn color="white" icon>
                   <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
+                </v-btn> -->
+                <v-menu
+                  bottom
+                  left
+                  origin="right top"
+                  transition="scale-transition"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn dark icon v-bind="attrs" v-on="on">
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list class="d-flex flex-column">
+                    <v-btn plain @click="deletePost(post.User.id)"
+                      ><v-icon>mdi-delete</v-icon> Supprimer le post</v-btn
+                    >
+                    <p>{{ post.id }}</p>
+                    <v-btn plain class="mt-3"
+                      ><v-icon>mdi-pencil</v-icon> Modifier le post</v-btn
+                    >
+                  </v-list>
+                </v-menu>
               </v-app-bar>
             </v-img>
 
             <v-card-text>
               <p>
-                {{ post.message }}
+                Votre message : {{ post.message }} <br />
+                Votre id : {{ post.id }}
               </p>
             </v-card-text>
           </v-card>
@@ -48,6 +68,7 @@
 import getPosts from '../plugins/getPosts';
 export default {
   name: 'Posts',
+
   data: () => {
     return {
       errorMessage: null,
@@ -70,6 +91,9 @@ export default {
 
         this.$store.dispatch('getPosts', data);
       } catch (error) {}
+    },
+    deletePost() {
+      this.$emit('deletePost', this.post.id);
     },
   },
 };

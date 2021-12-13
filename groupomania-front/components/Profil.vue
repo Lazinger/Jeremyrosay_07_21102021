@@ -13,8 +13,8 @@
               <img v-if="user.photo" :src="user.photo" alt="anon" />
               <img
                 v-else
-                src="https://cdn.vuetifyjs.com/images/john.jpg"
-                alt="John"
+                src="../static/image-1.png"
+                alt="Image de profil par défaut"
               />
             </v-avatar>
           </v-responsive>
