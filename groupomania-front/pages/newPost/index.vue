@@ -1,5 +1,5 @@
 <template>
-  <AddPost />
+  <NewPost />
 </template>
 
 <script>

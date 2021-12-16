@@ -108,10 +108,10 @@ export default {
       file: '',
     };
   },
+  beforeMount() {
+    this.$store.dispatch('getUserById');
+  },
   computed: {
-    beforeMount() {
-      this.$store.dispatch('getUserById');
-    },
     user() {
       return this.$store.getters.user;
     },

@@ -64,8 +64,10 @@ const createStore = () => {
         state.posts = [post, ...state.posts];
         state.message = 'Le post à bien été créé';
       },
-      DELETE_POST(state, id) {
-        state.posts = [...state.posts.filter((element) => element.id !== id)];
+      DELETE_POST(state, postId) {
+        state.posts = [
+          ...state.posts.filter((element) => element.id !== postId),
+        ];
         state.message = 'Le post à bien été supprimé';
       },
     },
@@ -147,7 +149,7 @@ const createStore = () => {
           },
         };
         this.$axios
-          .$post(`addPost`, post, config)
+          .$post(`newPost`, post, config)
           .then((response) => {
             console.log(response);
             const post = response;
@@ -160,19 +162,21 @@ const createStore = () => {
             });
           });
       },
-      deletePost({ commit }, id) {
+      deletePost({ commit }, postId) {
+        console.log('icicicicici', postId);
         let config = {
           headers: {
             Authorization: this.state.token,
           },
         };
         this.$axios
-          .$delete('posts/' + id, config, id)
+          .$delete(`posts/` + postId, config)
           .then(() => {
-            commit('DELETE_POST', id);
+            commit('DELETE_POST', postId);
           })
           .then(() => {
             this.$axios.$get('posts').then((response) => {
+              console.log(response);
               const posts = response.data;
               commit('GET_POSTS', posts);
             });
