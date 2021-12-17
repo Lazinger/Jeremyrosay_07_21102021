@@ -79,3 +79,37 @@ exports.deletePost = async (req, res) => {
 		return res.status(500).send({ error: "Erreur serveur" });
 	}
 };
+exports.updatePost = async (req, res) => {
+	try {
+		let newImage;
+		const userId = token.getUserId(req);
+		let post = await db.Post.findOne({ where: { id: req.params.id } });
+		if (userId === post.UserId) {
+			if (req.file) {
+				newImage = `${req.protocol}://${req.get("host")}/pictures/${req.file.filename}`;
+				if (post.image) {
+					const filename = post.image.split("/pictures")[1];
+					fs.unlink(`pictures/${filename}`, (err) => {
+						if (err) console.log(err);
+						else {
+							console.log(`Deleted file: pictures/${filename}`);
+						}
+					});
+				}
+			}
+			if (req.body.message) {
+				post.message = req.body.message;
+			}
+
+			post.image = newImage;
+			const newPost = await post.save({
+				fields: ["message", "image"],
+			});
+			res.status(200).json({ newPost: newPost, messageRetour: "post modifié" });
+		} else {
+			res.status(400).json({ message: "Vous n'avez pas les droits requis" });
+		}
+	} catch (error) {
+		return res.status(500).send({ error: "Erreur serveur" });
+	}
+};

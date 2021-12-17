@@ -70,6 +70,14 @@ const createStore = () => {
         ];
         state.message = 'Le post à bien été supprimé';
       },
+      UPDATE_POST(state, id, post) {
+        Object.assign(
+          state.posts.find((element) => element.id === id),
+          post
+        );
+
+        state.message = 'Votre post est bien modifié';
+      },
     },
     actions: {
       setToken({ commit }, token) {
@@ -181,6 +189,18 @@ const createStore = () => {
               commit('GET_POSTS', posts);
             });
           });
+      },
+      updatePost({ commit }, data) {
+        let config = {
+          headers: {
+            Authorization: this.state.token,
+          },
+        };
+        let id = this.state.post.id;
+        axios.put(`posts/${id}`, data, config).then((response) => {
+          const post = response.data;
+          commit('UPDATE_POST', id, post);
+        });
       },
     },
     getters: {

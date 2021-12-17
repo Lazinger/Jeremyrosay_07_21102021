@@ -3,6 +3,7 @@ const db = require("../models");
 const token = require("../middlewares/token");
 const auth = require("../middlewares/auth");
 const fs = require("fs");
+const { Op } = require("sequelize");
 
 exports.signup = async (req, res) => {
 	try {
@@ -78,6 +79,11 @@ exports.getAllUsers = async (req, res) => {
 	try {
 		const users = await db.User.findAll({
 			attributes: ["id", "firstName", "lastName", "email"],
+			where: {
+				id: {
+					[Op.ne]: 1,
+				},
+			},
 		});
 		res.status(200).send(users);
 	} catch (error) {

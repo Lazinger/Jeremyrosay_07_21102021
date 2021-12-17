@@ -34,7 +34,7 @@
                     ><v-icon>mdi-delete</v-icon> Supprimer le post</v-btn
                   >
                   <p>{{ post.id }}</p>
-                  <v-btn plain class="mt-3"
+                  <v-btn plain class="mt-3" @click="getOnePost(post.id)"
                     ><v-icon>mdi-pencil</v-icon> Modifier le post</v-btn
                   >
                 </v-list>
@@ -107,6 +107,9 @@ export default {
       console.log('lalallalala', id);
       this.$store.dispatch('deletePost', id);
       this.$router.push('/');
+    },
+    getOnePost(id) {
+      this.$router.push(`posts/${id}`);
     },
   },
 };

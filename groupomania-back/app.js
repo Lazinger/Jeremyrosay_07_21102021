@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 
 //routes
 app.use("", userRoutes);
-app.use("", postRoutes);
+app.use("/posts", postRoutes);
 app.use("/pictures", express.static(path.join(__dirname, "pictures")));
 
 const syncDatabase = async function () {
