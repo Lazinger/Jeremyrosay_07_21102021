@@ -145,7 +145,7 @@ const createStore = () => {
             Authorization: this.state.token,
           },
         };
-        this.$axios.$get('posts/' + id, config).then((response) => {
+        this.$axios.$get('posts/modifyPost' + id, config).then((response) => {
           const post = response.data;
           commit('GET_POST_BY_ID', post);
         });

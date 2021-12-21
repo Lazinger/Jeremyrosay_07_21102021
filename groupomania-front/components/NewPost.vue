@@ -104,6 +104,9 @@ export default {
       console.log(this.file);
 
       this.$store.dispatch('createPost', formData);
+      setTimeout(() => {
+        this.$router.push({ path: '/' });
+      }, 1500);
     },
   },
 };

@@ -24,19 +24,35 @@
                 origin="right top"
                 transition="scale-transition"
               >
-                <template v-slot:activator="{ on, attrs }">
+                <template
+                  v-if="isLogged === true"
+                  v-slot:activator="{ on, attrs }"
+                >
                   <v-btn dark icon v-bind="attrs" v-on="on">
                     <v-icon color="red">mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
-                <v-list class="d-flex flex-column">
+                <v-list
+                  v-if="
+                    (isLogged === true &&
+                      $store.state.user.id === post.User.id) ||
+                    (isLogged === true && $store.state.user.admin === true)
+                  "
+                  class="d-flex flex-column"
+                >
                   <v-btn plain @click="deletePost(post.id)"
                     ><v-icon>mdi-delete</v-icon> Supprimer le post</v-btn
                   >
-                  <p>{{ post.id }}</p>
+
                   <v-btn plain class="mt-3" @click="getOnePost(post.id)"
                     ><v-icon>mdi-pencil</v-icon> Modifier le post</v-btn
                   >
+                </v-list>
+                <v-list v-else>
+                  <p>
+                    Vous ne pouvez pas supprimer ou modifier ce post car vous
+                    n'en etes pas l'auteur
+                  </p>
                 </v-list>
               </v-menu>
             </v-card-title>
@@ -89,6 +105,9 @@ export default {
       console.log('ZE STORE', this.$store.state.posts);
       return this.$store.state.posts;
     },
+    isLogged() {
+      return this.$store.getters.isLogged;
+    },
   },
   methods: {
     testButton() {
@@ -107,11 +126,19 @@ export default {
 
     deletePost(id) {
       console.log('lalallalala', id);
-      this.$store.dispatch('deletePost', id);
-      this.$router.push('/');
+      try {
+        this.$store.dispatch('deletePost', id);
+        this.$router.push('/');
+      } catch (error) {
+        console.log('Le bug est ici, cherche');
+      }
     },
     getOnePost(id) {
-      this.$router.push(`posts/${id}`);
+      try {
+        this.$router.push(`posts/modifyPost` + id);
+      } catch (error) {
+        console.log('Erreur 404', error);
+      }
     },
   },
 };
