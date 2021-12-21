@@ -100,7 +100,9 @@ export default {
         let data = res;
 
         this.$store.dispatch('getPosts', data);
-      } catch (error) {}
+      } catch (error) {
+        this.errorMessage = error.res.data.error;
+      }
     },
 
     deletePost(id) {

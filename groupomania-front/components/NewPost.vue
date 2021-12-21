@@ -104,7 +104,6 @@ export default {
       console.log(this.file);
 
       this.$store.dispatch('createPost', formData);
-      this.$router.push('/');
     },
   },
 };

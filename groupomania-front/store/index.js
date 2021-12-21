@@ -157,7 +157,7 @@ const createStore = () => {
           },
         };
         this.$axios
-          .$post(`newPost`, post, config)
+          .$post(`posts/newPost`, post, config)
           .then((response) => {
             console.log(response);
             const post = response;
