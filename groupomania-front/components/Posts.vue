@@ -4,6 +4,7 @@
       <v-row justify="center">
         <v-spacer></v-spacer>
         <v-col>
+          <pre>{{ postInModification }}</pre>
           <v-card v-for="post in posts" :key="post.id" width="600" class="my-4">
             <v-card-title class="blue-grey lighten-5">
               <v-avatar size="56">
@@ -34,9 +35,8 @@
                 </template>
                 <v-list
                   v-if="
-                    (isLogged === true &&
-                      $store.state.user.id === post.User.id) ||
-                    (isLogged === true && $store.state.user.admin === true)
+                    (isLogged && $store.state.user.id === post.User.id) ||
+                    (isLogged && $store.state.user.admin)
                   "
                   class="d-flex flex-column"
                 >
@@ -44,7 +44,7 @@
                     ><v-icon>mdi-delete</v-icon> Supprimer le post</v-btn
                   >
 
-                  <v-btn plain class="mt-3" @click="getOnePost(post.id)"
+                  <v-btn plain class="mt-3" @click="editPost(post)"
                     ><v-icon>mdi-pencil</v-icon> Modifier le post</v-btn
                   >
                 </v-list>
@@ -93,6 +93,7 @@ export default {
 
   data: () => {
     return {
+      postInModification: undefined,
       errorMessage: null,
       notLogged: 'Droit insuffisant',
     };
@@ -100,6 +101,7 @@ export default {
   beforeMount() {
     this.getAllPosts();
   },
+
   computed: {
     posts: function () {
       console.log('ZE STORE', this.$store.state.posts);
@@ -109,6 +111,7 @@ export default {
       return this.$store.getters.isLogged;
     },
   },
+
   methods: {
     testButton() {
       console.log('TEST BUTTON', this.$store.state);
@@ -128,7 +131,6 @@ export default {
       console.log('lalallalala', id);
       try {
         this.$store.dispatch('deletePost', id);
-        this.$router.push('/');
       } catch (error) {
         console.log('Le bug est ici, cherche');
       }
@@ -139,6 +141,11 @@ export default {
       } catch (error) {
         console.log('Erreur 404', error);
       }
+    },
+    editPost(post) {
+      // Ouvrir le dialog //
+      this.postInModification = post;
+      console.log(post);
     },
   },
 };

@@ -118,6 +118,7 @@ const createStore = () => {
         commit('LOG_OUT');
       },
       updateAccount({ commit }, data) {
+        console.log('data', data);
         let id = this.state.user.id;
         let config = {
           headers: {
@@ -177,18 +178,10 @@ const createStore = () => {
             Authorization: this.state.token,
           },
         };
-        this.$axios
-          .$delete(`posts/` + postId, config)
-          .then(() => {
-            commit('DELETE_POST', postId);
-          })
-          .then(() => {
-            this.$axios.$get('posts').then((response) => {
-              console.log(response);
-              const posts = response.data;
-              commit('GET_POSTS', posts);
-            });
-          });
+
+        this.$axios.$delete(`posts/` + postId, config).then(() => {
+          commit('DELETE_POST', postId);
+        });
       },
       updatePost({ commit }, data) {
         let config = {

@@ -142,7 +142,7 @@ export default {
       }, 1500);
     },
 
-    onSubmit() {
+    onSubmit(userId) {
       const formData = new FormData();
 
       formData.append('aboutMe', this.newAboutMe);
@@ -150,9 +150,10 @@ export default {
         formData.append('image', this.file);
       }
       this.$store.dispatch('getUsers');
-      this.$store.dispatch('getUserById', this.user.id);
+      this.$store.dispatch('getUserById', userId);
+      console.log('formdata', formData);
       this.$store.dispatch('updateAccount', formData);
-      this.$store.dispatch('getUserById', this.user.id);
+      this.$store.dispatch('getUserById', userId);
 
       this.updateAboutMe = false;
       this.updatePhoto = false;

@@ -47,7 +47,7 @@
           <v-row class="mt-5 text-center">
             <v-col cols="6">
               <v-avatar size="100">
-                <img src="../static/image-1.png" />
+                <img :src="user.photo" />
               </v-avatar>
             </v-col>
           </v-row>
@@ -106,6 +106,9 @@ export default {
   computed: {
     isLogged() {
       return this.$store.getters.isLogged;
+    },
+    user() {
+      return this.$store.getters.user;
     },
   },
   methods: {
