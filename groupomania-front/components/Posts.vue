@@ -45,16 +45,10 @@
                   <v-btn plain @click="deletePost(post.id)"
                     ><v-icon>mdi-delete</v-icon> Supprimer le post</v-btn
                   >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      v-bind="attrs"
-                      v-on="on"
-                      plain
-                      @click="editPost()"
-                      class="mt-3"
+                  <template>
+                    <v-btn plain @click="editPost()" class="mt-3"
                       ><v-icon>mdi-pencil</v-icon> Modifier le post</v-btn
                     >
-                    <ModifyPost />
                   </template>
                 </v-list>
                 <v-list v-else>
@@ -86,7 +80,11 @@
               </div>
             </v-card-text>
           </v-card>
+          <v-dialog v-model="dialog" max-width="650px">
+            <ModifyPost />
+          </v-dialog>
         </v-col>
+
         <v-spacer></v-spacer>
       </v-row>
     </v-container>
@@ -149,6 +147,7 @@ export default {
     editPost(post) {
       // Ouvrir le dialog //
       this.postInModification = post;
+      this.dialog = true;
       console.log(post);
     },
   },
