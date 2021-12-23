@@ -3,8 +3,10 @@
     <v-container>
       <v-row justify="center">
         <v-spacer></v-spacer>
+
         <v-col>
           <pre>{{ postInModification }}</pre>
+
           <v-card v-for="post in posts" :key="post.id" width="600" class="my-4">
             <v-card-title class="blue-grey lighten-5">
               <v-avatar size="56">
@@ -43,10 +45,17 @@
                   <v-btn plain @click="deletePost(post.id)"
                     ><v-icon>mdi-delete</v-icon> Supprimer le post</v-btn
                   >
-
-                  <v-btn plain class="mt-3" @click="editPost(post)"
-                    ><v-icon>mdi-pencil</v-icon> Modifier le post</v-btn
-                  >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      plain
+                      @click="editPost()"
+                      class="mt-3"
+                      ><v-icon>mdi-pencil</v-icon> Modifier le post</v-btn
+                    >
+                    <ModifyPost />
+                  </template>
                 </v-list>
                 <v-list v-else>
                   <p>
@@ -80,7 +89,6 @@
         </v-col>
         <v-spacer></v-spacer>
       </v-row>
-      <v-btn @click="testButton" color="red" class="mt-5">DEBUG</v-btn>
     </v-container>
   </v-main>
 </template>
@@ -93,9 +101,14 @@ export default {
 
   data: () => {
     return {
+      message: '',
+      file: '',
+      dialog: false,
+      rules: {
+        required: (value) => !!value || 'Required.',
+      },
       postInModification: undefined,
       errorMessage: null,
-      notLogged: 'Droit insuffisant',
     };
   },
   beforeMount() {
@@ -113,9 +126,6 @@ export default {
   },
 
   methods: {
-    testButton() {
-      console.log('TEST BUTTON', this.$store.state);
-    },
     async getAllPosts() {
       try {
         const res = await getPosts.wall(this.$axios, this.$store);
@@ -135,13 +145,7 @@ export default {
         console.log('Le bug est ici, cherche');
       }
     },
-    getOnePost(id) {
-      try {
-        this.$router.push(`posts/modifyPost` + id);
-      } catch (error) {
-        console.log('Erreur 404', error);
-      }
-    },
+
     editPost(post) {
       // Ouvrir le dialog //
       this.postInModification = post;

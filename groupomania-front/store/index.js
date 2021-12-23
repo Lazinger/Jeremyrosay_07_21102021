@@ -76,7 +76,7 @@ const createStore = () => {
           post
         );
 
-        state.message = 'Votre post est bien modifié';
+        state.message = 'Votre post a bien été modifié';
       },
     },
     actions: {
@@ -190,7 +190,7 @@ const createStore = () => {
           },
         };
         let id = this.state.post.id;
-        axios.put(`posts/${id}`, data, config).then((response) => {
+        this.$axios.$put(`posts/`, data, config).then((response) => {
           const post = response.data;
           commit('UPDATE_POST', id, post);
         });
