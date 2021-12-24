@@ -9,17 +9,19 @@
 
           <v-card v-for="post in posts" :key="post.id" width="600" class="my-4">
             <v-card-title class="blue-grey lighten-5">
-              <v-avatar size="56">
-                <img
-                  v-if="post.User.photo"
-                  :src="post.User.photo"
-                  alt="Photo de profil"
-                />
-                <img v-else src="../static/image-1.png" />
-              </v-avatar>
-              <div class="ml-3" color="black">
-                {{ post.User.firstName }}
-              </div>
+              <template>
+                <v-avatar @click="getUser()" size="56">
+                  <img
+                    v-if="post.User.photo"
+                    :src="post.User.photo"
+                    alt="Photo de profil"
+                  />
+                  <img v-else src="../static/image-1.png" />
+                </v-avatar>
+                <div class="ml-3" color="black">
+                  {{ post.User.firstName }}
+                </div>
+              </template>
               <v-spacer></v-spacer>
               <v-menu
                 bottom
@@ -46,17 +48,18 @@
                     ><v-icon>mdi-delete</v-icon> Supprimer le post</v-btn
                   >
                   <template>
-                    <v-btn plain @click="editPost()" class="mt-3"
+                    <v-btn plain @click="editPost(post)" class="mt-3"
                       ><v-icon>mdi-pencil</v-icon> Modifier le post</v-btn
                     >
                   </template>
                 </v-list>
-                <v-list v-else>
-                  <p>
+
+                <v-card v-else>
+                  <v-card-text>
                     Vous ne pouvez pas supprimer ou modifier ce post car vous
                     n'en etes pas l'auteur
-                  </p>
-                </v-list>
+                  </v-card-text>
+                </v-card>
               </v-menu>
             </v-card-title>
             <v-img :src="post.image" height="600">
@@ -80,8 +83,11 @@
               </div>
             </v-card-text>
           </v-card>
-          <v-dialog v-model="dialog" max-width="650px">
+          <v-dialog v-model="dialogPost" max-width="650px">
             <ModifyPost />
+          </v-dialog>
+          <v-dialog v-model="dialogUser" max-width="650px">
+            <PostUser />
           </v-dialog>
         </v-col>
 
@@ -101,11 +107,13 @@ export default {
     return {
       message: '',
       file: '',
-      dialog: false,
+      dialogPost: false,
+      dialogUser: false,
       rules: {
         required: (value) => !!value || 'Required.',
       },
       postInModification: undefined,
+      postUser: undefined,
       errorMessage: null,
     };
   },
@@ -117,6 +125,9 @@ export default {
     posts: function () {
       console.log('ZE STORE', this.$store.state.posts);
       return this.$store.state.posts;
+    },
+    user() {
+      return this.$store.getters.user;
     },
     isLogged() {
       return this.$store.getters.isLogged;
@@ -147,8 +158,13 @@ export default {
     editPost(post) {
       // Ouvrir le dialog //
       this.postInModification = post;
-      this.dialog = true;
-      console.log(post);
+      this.dialogPost = true;
+      console.log(this.post);
+    },
+    getUser(user) {
+      this.postUser = user;
+      this.dialogUser = true;
+      console.log(this.user);
     },
   },
 };

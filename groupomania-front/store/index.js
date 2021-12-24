@@ -57,9 +57,9 @@ const createStore = () => {
       GET_POSTS(state, posts) {
         state.posts = posts;
       },
-      GET_POST_BY_ID(state, post) {
-        state.post = post;
-      },
+      // GET_POST_BY_ID(state, post) {
+      //   state.post = post;
+      // },
       CREATE_POST(state, post) {
         state.posts = [post, ...state.posts];
         state.message = 'Le post à bien été créé';
@@ -139,18 +139,19 @@ const createStore = () => {
           commit('GET_POSTS', posts);
         });
       },
-      getPostById({ commit }) {
-        let id = this.state.user.id;
-        let config = {
-          headers: {
-            Authorization: this.state.token,
-          },
-        };
-        this.$axios.$get('posts/modifyPost' + id, config).then((response) => {
-          const post = response.data;
-          commit('GET_POST_BY_ID', post);
-        });
-      },
+      // getPostById({ commit }) {
+      //   let id = this.state.post.id;
+      //   let config = {
+      //     headers: {
+      //       Authorization: this.state.token,
+      //     },
+      //   };
+      //   this.$axios.$get('posts/' + id, config).then((response) => {
+      //     const post = response.data;
+      //     commit('GET_POST_BY_ID', post);
+      //   });
+      // },
+
       createPost({ commit }, post) {
         let config = {
           headers: {
@@ -171,6 +172,7 @@ const createStore = () => {
             });
           });
       },
+
       deletePost({ commit }, postId) {
         console.log('icicicicici', postId);
         let config = {
@@ -183,19 +185,21 @@ const createStore = () => {
           commit('DELETE_POST', postId);
         });
       },
-      updatePost({ commit }, data) {
+
+      updatePost({ commit }, postId, data) {
         let config = {
           headers: {
             Authorization: this.state.token,
           },
         };
-        let id = this.state.post.id;
-        this.$axios.$put(`posts/`, data, config).then((response) => {
+
+        this.$axios.$put(`posts/` + postId, data, config).then((response) => {
           const post = response.data;
           commit('UPDATE_POST', id, post);
         });
       },
     },
+
     getters: {
       user(state) {
         return state.user;
