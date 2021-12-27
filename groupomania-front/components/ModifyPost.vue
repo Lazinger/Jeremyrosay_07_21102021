@@ -39,6 +39,7 @@
       <v-btn color="blue darken-1" text @click="updatePost(post.id)">
         Sauvegarder
       </v-btn>
+      <!-- <v-btn color="blue darken-1" text @click="debug()"> Debug </v-btn> -->
     </v-card-actions>
   </v-card>
 </template>
@@ -56,8 +57,8 @@ export default {
   },
   methods: {
     debug() {
+      console.log(this.postInModification);
       console.log('Je fonctionne');
-      dialog = false;
     },
     updatePost(postId) {
       const formData = new FormData();

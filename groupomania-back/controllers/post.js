@@ -26,7 +26,7 @@ exports.createPost = async (req, res) => {
 	let image;
 	try {
 		const user = await db.User.findOne({
-			attributes: ["firstName", "id", "photo"],
+			attributes: ["firstName", "id", "photo", "aboutMe"],
 			where: { id: userId },
 		});
 		if (user !== null) {
@@ -39,7 +39,7 @@ exports.createPost = async (req, res) => {
 				include: [
 					{
 						model: db.User,
-						attributes: ["firstName", "photo", "id"],
+						attributes: ["firstName", "photo", "id", "aboutMe"],
 					},
 				],
 				message: req.body.message,

@@ -38,7 +38,6 @@ const createStore = () => {
         state.users = users;
       },
       LOG_OUT(state) {
-        localStorage.clear();
         state.token = null;
         state.user = null;
         state.isLoggedIn = false;
@@ -51,6 +50,10 @@ const createStore = () => {
           user
         );
         state.message = 'Le compte à bien été modifié';
+      },
+      DELETE_ACCOUNT(state, id) {
+        state.users = [...state.users.filter((element) => element.id !== id)];
+        state.message = 'compte supprimé';
       },
       // Posts
 
@@ -128,6 +131,16 @@ const createStore = () => {
         this.$axios.$put(`accounts/${id}`, data, config).then((response) => {
           const newUser = response;
           commit('UPDATE_ACCOUNT', id, newUser);
+        });
+      },
+      deleteAccount({ commit }, id) {
+        let config = {
+          headers: {
+            Authorization: this.state.token,
+          },
+        };
+        this.$axios.$delete(`accounts/${id}`, config).then(() => {
+          commit('DELETE_ACCOUNT', id);
         });
       },
       // Posts

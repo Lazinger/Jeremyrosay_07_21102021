@@ -130,3 +130,22 @@ exports.updateAccount = async (req, res) => {
 		return res.status(500).send({ error: "Erreur serveur" });
 	}
 };
+exports.deleteAccount = async (req, res) => {
+	try {
+		const id = req.params.id;
+		const user = await db.User.findOne({ where: { id: id } });
+		if (user.photo !== null) {
+			const filename = user.photo.split("/pictures")[1];
+			fs.unlink(`pictures/${filename}`, () => {
+				// sil' y a une photo on la supprime et on supprime le compte
+				db.User.destroy({ where: { id: id } });
+				res.status(200).json({ messageRetour: "utilisateur supprimé" });
+			});
+		} else {
+			db.User.destroy({ where: { id: id } }); // on supprime le compte
+			res.status(200).json({ messageRetour: "utilisateur supprimé" });
+		}
+	} catch (error) {
+		return res.status(500).send({ error: "Erreur serveur" });
+	}
+};

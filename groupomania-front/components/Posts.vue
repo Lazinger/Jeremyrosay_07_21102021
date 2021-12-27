@@ -7,10 +7,24 @@
         <v-col>
           <pre>{{ postInModification }}</pre>
 
+          <pre>{{ postUserInformation }}</pre>
+
           <v-card v-for="post in posts" :key="post.id" width="600" class="my-4">
             <v-card-title class="blue-grey lighten-5">
               <template>
-                <v-avatar @click="getUser()" size="56">
+                <v-avatar
+                  v-if="isLogged"
+                  @click="getUserInformation(post)"
+                  size="56"
+                >
+                  <img
+                    v-if="post.User.photo"
+                    :src="post.User.photo"
+                    alt="Photo de profil"
+                  />
+                  <img v-else src="../static/image-1.png" />
+                </v-avatar>
+                <v-avatar v-else size="56">
                   <img
                     v-if="post.User.photo"
                     :src="post.User.photo"
@@ -72,16 +86,29 @@
               </v-app-bar>
             </v-img>
 
-            <v-card-text class="blue-grey lighten-5">
+            <v-card-title class="blue-grey lighten-5">
               <div>
-                <p>
-                  Votre message : {{ post.message }} <br />
-                  L'id du post est le : {{ post.id }} <br />
-
-                  L'id de la personne qui a posté est le : {{ post.User.id }}
-                </p>
+                <v-card-text
+                  ><span class="font-weight-bold text-h6">{{
+                    post.User.firstName
+                  }}</span>
+                  dit :</v-card-text
+                >
               </div>
-            </v-card-text>
+              <v-spacer></v-spacer>
+              <div>
+                <v-card-text>
+                  {{ post.message }}
+                </v-card-text>
+              </div>
+            </v-card-title>
+            <div class="px-5 blue-grey lighten-5">
+              <v-textarea
+                class=""
+                clearable
+                clear-icon="mdi-close-circle"
+              ></v-textarea>
+            </div>
           </v-card>
           <v-dialog v-model="dialogPost" max-width="650px">
             <ModifyPost />
@@ -113,7 +140,7 @@ export default {
         required: (value) => !!value || 'Required.',
       },
       postInModification: undefined,
-      postUser: undefined,
+      postUserInformation: undefined,
       errorMessage: null,
     };
   },
@@ -161,10 +188,10 @@ export default {
       this.dialogPost = true;
       console.log(this.post);
     },
-    getUser(user) {
-      this.postUser = user;
+    getUserInformation(post) {
+      this.postUserInformation = post;
       this.dialogUser = true;
-      console.log(this.user);
+      console.log(this.post);
     },
   },
 };
