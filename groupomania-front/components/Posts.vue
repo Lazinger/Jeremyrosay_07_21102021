@@ -102,12 +102,16 @@
                 </v-card-text>
               </div>
             </v-card-title>
-            <div class="px-5 blue-grey lighten-5">
+            <v-btn @click="displayNewComment = !displayNewComment"
+              >Nouveau commentaire</v-btn
+            >
+            <div v-if="displayNewComment" class="px-5 blue-grey lighten-5">
               <v-textarea
                 class=""
                 clearable
                 clear-icon="mdi-close-circle"
               ></v-textarea>
+              <v-btn class="mb-3">Poster</v-btn>
             </div>
           </v-card>
           <v-dialog v-model="dialogPost" max-width="650px">
@@ -142,6 +146,7 @@ export default {
       postInModification: undefined,
       postUserInformation: undefined,
       errorMessage: null,
+      displayNewComment: false,
     };
   },
   beforeMount() {
@@ -192,6 +197,9 @@ export default {
       this.postUserInformation = post;
       this.dialogUser = true;
       console.log(this.post);
+    },
+    toggleNewComment() {
+      this.displayNewComment = true;
     },
   },
 };
