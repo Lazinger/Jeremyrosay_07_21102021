@@ -9,8 +9,15 @@
 
           <pre>{{ postUserInformation }}</pre>
 
-          <v-card v-for="post in posts" :key="post.id" width="600" class="my-4">
-            <v-card-title class="blue-grey lighten-5">
+          <v-card
+            outlined
+            color="transparent"
+            v-for="post in posts"
+            :key="post.id"
+            width="600"
+            class="my-4"
+          >
+            <v-card-title class="white mb-n2">
               <template>
                 <v-avatar
                   v-if="isLogged"
@@ -48,7 +55,7 @@
                   v-slot:activator="{ on, attrs }"
                 >
                   <v-btn dark icon v-bind="attrs" v-on="on">
-                    <v-icon color="red">mdi-dots-vertical</v-icon>
+                    <v-icon color="black">mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
                 <v-list
@@ -86,26 +93,49 @@
               </v-app-bar>
             </v-img>
 
-            <v-card-title class="blue-grey lighten-5">
-              <div>
-                <v-card-text
-                  ><span class="font-weight-bold text-h6">{{
-                    post.User.firstName
-                  }}</span>
-                  dit :</v-card-text
-                >
-              </div>
-              <v-spacer></v-spacer>
-              <div>
-                <v-card-text>
-                  {{ post.message }}
-                </v-card-text>
-              </div>
-            </v-card-title>
-            <v-btn @click="displayNewComment = !displayNewComment"
-              >Nouveau commentaire</v-btn
+            <v-card-title class="white mb-4">
+              "{{ post.message }}"</v-card-title
             >
-            <div v-if="displayNewComment" class="px-5 blue-grey lighten-5">
+
+            <v-card-title v-if="displayAllComment" class="grey lighten-4">
+              <div class="d-flex">
+                <v-avatar size="35" class="">
+                  <img
+                    v-if="post.User.photo"
+                    :src="post.User.photo"
+                    alt="Photo de profil"
+                  />
+                  <img v-else src="../static/image-1.png" />
+                </v-avatar>
+                <div class="">
+                  <v-card-text class="mt-n5">
+                    <span class="font-weight-bold">
+                      {{ post.User.firstName }} </span
+                    ><br />
+                    {{ post.message }}
+                  </v-card-text>
+                </div>
+              </div>
+
+              <v-card-text></v-card-text>
+            </v-card-title>
+
+            <div>
+              <v-btn
+                plain
+                color="black"
+                @click="displayNewComment = !displayNewComment"
+                ><v-icon>mdi-comment-plus</v-icon></v-btn
+              >
+              <v-btn
+                plain
+                color="black"
+                @click="displayAllComment = !displayAllComment"
+                ><v-icon>mdi-comment</v-icon></v-btn
+              >
+            </div>
+
+            <div v-if="displayNewComment" class="px-5 white">
               <v-textarea
                 class=""
                 clearable
@@ -114,6 +144,8 @@
               <v-btn class="mb-3">Poster</v-btn>
             </div>
           </v-card>
+          <v-divider></v-divider>
+
           <v-dialog v-model="dialogPost" max-width="650px">
             <ModifyPost />
           </v-dialog>
@@ -147,6 +179,7 @@ export default {
       postUserInformation: undefined,
       errorMessage: null,
       displayNewComment: false,
+      displayAllComment: false,
     };
   },
   beforeMount() {
@@ -200,6 +233,9 @@ export default {
     },
     toggleNewComment() {
       this.displayNewComment = true;
+    },
+    toggleAllComment() {
+      this.displayAllComment = true;
     },
   },
 };
