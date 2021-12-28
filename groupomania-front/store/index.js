@@ -81,6 +81,9 @@ const createStore = () => {
 
         state.message = 'Votre post a bien été modifié';
       },
+      CREATE_COMMENT(state, comment) {
+        state.posts = [comment, ...state.posts];
+      },
     },
     actions: {
       setToken({ commit }, token) {
@@ -210,6 +213,19 @@ const createStore = () => {
           const post = response.data;
           commit('UPDATE_POST', id, post);
         });
+      },
+      createComment({ commit }, payload) {
+        let config = {
+          headers: {
+            Authorization: this.state.token,
+          },
+        };
+        this.$axios
+          .post(`posts/${payload.id}/comments`, payload.data, config)
+          .then((res) => {
+            const comment = res.data;
+            commit('CREATE_COMMENT', comment);
+          });
       },
     },
 

@@ -7,5 +7,6 @@ router.get("", postCtrl.getAllPosts);
 router.post("/newPost", auth, multer, postCtrl.createPost);
 router.delete("/:id", auth, multer, postCtrl.deletePost);
 router.put("/:id", auth, multer, postCtrl.updatePost);
+router.post("/:id/comments", auth, postCtrl.createComment);
 
 module.exports = router;

@@ -113,3 +113,19 @@ exports.updatePost = async (req, res) => {
 		return res.status(500).send({ error: "Erreur serveur" });
 	}
 };
+exports.createComment = async (req, res) => {
+	try {
+		const comment = req.body.comment;
+		const firstName = $store.state.user.firstName;
+		const newComment = await db.Comment.create({
+			message: comment,
+			firstName: firstName,
+			UserId: token.getUserId(req),
+			PostId: req.params.id,
+		});
+
+		res.status(201).json({ newComment, messageRetour: "votre commentaire est publié" });
+	} catch (error) {
+		return res.status(500).send({ error: "Erreur serveur" });
+	}
+};

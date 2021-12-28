@@ -97,6 +97,20 @@
               "{{ post.message }}"</v-card-title
             >
 
+            <div>
+              <v-btn
+                plain
+                color="black"
+                @click="displayNewComment = !displayNewComment"
+                ><v-icon>mdi-comment-plus</v-icon></v-btn
+              >
+              <v-btn
+                plain
+                color="black"
+                @click="displayAllComment = !displayAllComment"
+                ><v-icon>mdi-comment</v-icon></v-btn
+              >
+            </div>
             <v-card-title v-if="displayAllComment" class="grey lighten-4">
               <div class="d-flex">
                 <v-avatar size="35" class="">
@@ -116,24 +130,7 @@
                   </v-card-text>
                 </div>
               </div>
-
-              <v-card-text></v-card-text>
             </v-card-title>
-
-            <div>
-              <v-btn
-                plain
-                color="black"
-                @click="displayNewComment = !displayNewComment"
-                ><v-icon>mdi-comment-plus</v-icon></v-btn
-              >
-              <v-btn
-                plain
-                color="black"
-                @click="displayAllComment = !displayAllComment"
-                ><v-icon>mdi-comment</v-icon></v-btn
-              >
-            </div>
 
             <div v-if="displayNewComment" class="px-5 white">
               <v-textarea
