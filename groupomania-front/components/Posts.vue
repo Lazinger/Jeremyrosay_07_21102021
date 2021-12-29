@@ -29,21 +29,20 @@
                     :src="post.User.photo"
                     alt="Photo de profil"
                   />
-                  <img v-else src="../static/image-1.png" />
-                </v-avatar>
-                <v-avatar v-else size="56">
                   <img
-                    v-if="post.User.photo"
-                    :src="post.User.photo"
-                    alt="Photo de profil"
+                    v-else
+                    src="../static/image-1.png"
+                    alt="Photo de profil par défaut"
                   />
-                  <img v-else src="../static/image-1.png" />
                 </v-avatar>
+
                 <div class="ml-3" color="black">
                   {{ post.User.firstName }}
                 </div>
               </template>
               <v-spacer></v-spacer>
+
+              <!-- ZONE 3 PETITS POINTS MENU SUPPRIMER ET MODIFIER -->
               <v-menu
                 bottom
                 left
@@ -83,20 +82,13 @@
                 </v-card>
               </v-menu>
             </v-card-title>
-            <v-img :src="post.image" height="600">
-              <v-app-bar flat color="rgba(0, 0, 0, 0)">
-                <v-spacer></v-spacer>
-
-                <!-- <v-btn color="white" icon>
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn> -->
-              </v-app-bar>
-            </v-img>
+            <v-img :src="post.image" height="600"> </v-img>
 
             <v-card-title class="white mb-4">
               "{{ post.message }}"</v-card-title
             >
 
+            <!-- AFFICHE LES COMMENTAIRES EXISTANT ET LES "AJOUTER NOUVEAUX" -->
             <div>
               <v-btn
                 plain
@@ -108,28 +100,35 @@
                 plain
                 color="black"
                 @click="displayAllComment = !displayAllComment"
-                ><v-icon>mdi-comment</v-icon></v-btn
+                ><v-icon>mdi-comment</v-icon
+                ><span>{{ post.Comments.length }} </span></v-btn
               >
             </div>
             <v-card-title v-if="displayAllComment" class="grey lighten-4">
-              <div class="d-flex">
-                <v-avatar size="35" class="">
-                  <img
-                    v-if="post.User.photo"
-                    :src="post.User.photo"
-                    alt="Photo de profil"
-                  />
-                  <img v-else src="../static/image-1.png" />
-                </v-avatar>
-                <div class="">
-                  <v-card-text class="mt-n5">
-                    <span class="font-weight-bold">
-                      {{ post.User.firstName }} </span
-                    ><br />
-                    {{ post.message }}
-                  </v-card-text>
-                </div>
-              </div>
+              <v-list v-for="comment in post.Comments" :key="comment.id">
+                <v-list-item>
+                  <v-list-item-avatar>
+                    <img
+                      v-if="comment.User.photo != null"
+                      :src="comment.User.photo"
+                      alt="Photo de l'utilisateur qui a commenté"
+                    />
+                    <img
+                      v-else
+                      src="../static/image-1.png"
+                      alt="Photo de profil par defaut"
+                    />
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      {{ comment.firstName }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                      {{ comment.message }}
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
             </v-card-title>
 
             <div v-if="displayNewComment" class="px-5 white">
@@ -140,11 +139,14 @@
               ></v-textarea>
               <v-btn class="mb-3">Poster</v-btn>
             </div>
+            <v-btn class="mb-4" @click="debug()">Debug</v-btn>
+            <v-divider></v-divider>
           </v-card>
-          <v-divider></v-divider>
+
+          <!-- DIALOG POUR MODIFIER ET SUPPRIMER POST -->
 
           <v-dialog v-model="dialogPost" max-width="650px">
-            <ModifyPost />
+            <ModifyPost v-bind:post-in-modification="postInModification" />
           </v-dialog>
           <v-dialog v-model="dialogUser" max-width="650px">
             <PostUser />
@@ -177,6 +179,7 @@ export default {
       errorMessage: null,
       displayNewComment: false,
       displayAllComment: false,
+      commentCounter: 0,
     };
   },
   beforeMount() {
@@ -197,6 +200,10 @@ export default {
   },
 
   methods: {
+    debug() {
+      console.log(this.posts);
+      console.log(this.posts.comments);
+    },
     async getAllPosts() {
       try {
         const res = await getPosts.wall(this.$axios, this.$store);
@@ -233,6 +240,9 @@ export default {
     },
     toggleAllComment() {
       this.displayAllComment = true;
+    },
+    showCommentCount() {
+      this.commentCounter = comment.length;
     },
   },
 };

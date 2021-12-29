@@ -10,7 +10,18 @@ exports.getAllPosts = async (req, res, next) => {
 			include: [
 				{
 					model: db.User,
-					attributes: ["id", "firstName", "photo"],
+					attributes: ["id", "firstName", "photo", "aboutMe"],
+				},
+				{
+					model: db.Comment,
+					attributes: ["message", "firstName", "UserId", "PostId", "id"],
+					order: [["createdAt", "DESC"]],
+					include: [
+						{
+							model: db.User,
+							attributes: ["photo", "firstName"],
+						},
+					],
 				},
 			],
 		});
@@ -26,7 +37,7 @@ exports.createPost = async (req, res) => {
 	let image;
 	try {
 		const user = await db.User.findOne({
-			attributes: ["firstName", "id", "photo", "aboutMe"],
+			attributes: ["firstName", "id", "photo"],
 			where: { id: userId },
 		});
 		if (user !== null) {
@@ -39,7 +50,7 @@ exports.createPost = async (req, res) => {
 				include: [
 					{
 						model: db.User,
-						attributes: ["firstName", "photo", "id", "aboutMe"],
+						attributes: ["firstName", "photo", "id"],
 					},
 				],
 				message: req.body.message,

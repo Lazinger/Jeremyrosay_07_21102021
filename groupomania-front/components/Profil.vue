@@ -3,10 +3,11 @@
     <v-row v-if="isLogged === true" justify="space-around">
       <v-card
         width="800"
-        flat
         class="text-left ma-3 d-flex flex-column justify-center space-around"
+        elevation="5"
       >
-        <v-card-title>Voici ta page profil</v-card-title>
+        <v-card-title class="mx-auto">Voici ta page profil</v-card-title>
+        <v-divider></v-divider>
         <client-only>
           <v-responsive class="pt-4 text-center">
             <v-avatar size="100px">
@@ -19,7 +20,7 @@
             </v-avatar>
           </v-responsive>
         </client-only>
-        <v-responsive class="d-flex text-center">
+        <v-responsive class="d-flex ml-4">
           <div>
             <input
               @change="uploadImage"
@@ -71,8 +72,8 @@
             class="input-group--focused bio"
           >
           </v-textarea>
-
-          <div class="d-flex flex-column">
+          <v-divider></v-divider>
+          <div class="d-flex flex-column mt-4">
             <client-only>
               <div class="d-flex justify-center">
                 <v-btn @click="onSubmit(user.id)" :disabled="!isValid"
@@ -143,17 +144,18 @@ export default {
     },
 
     onSubmit(userId) {
+      console.log('userID', userId);
       const formData = new FormData();
 
       formData.append('aboutMe', this.newAboutMe);
       if (this.file !== null) {
         formData.append('image', this.file);
       }
-      this.$store.dispatch('getUsers');
-      this.$store.dispatch('getUserById', userId);
+      // this.$store.dispatch('getUsers');
+      // this.$store.dispatch('getUserById', userId);
       console.log('formdata', formData);
       this.$store.dispatch('updateAccount', formData);
-      this.$store.dispatch('getUserById', userId);
+      // this.$store.dispatch('getUserById', userId);
 
       this.updateAboutMe = false;
       this.updatePhoto = false;

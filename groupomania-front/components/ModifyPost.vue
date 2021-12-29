@@ -1,7 +1,8 @@
 <template>
   <v-card>
+    <pre>{{ postInModification }}</pre>
     <v-card-title>
-      <span class="text-h5">Modifier votre post</span>
+      <span class="text-h5">Modifier votre post </span>
     </v-card-title>
     <v-card-text>
       <v-container>
@@ -36,8 +37,12 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-      <v-btn color="blue darken-1" text @click="updatePost(post.id)">
-        Sauvegarder
+      <v-btn
+        color="blue darken-1"
+        text
+        @click="updatePost(postInModification.id)"
+      >
+        Sauvegarder {{ postInModification.id }}
       </v-btn>
       <!-- <v-btn color="blue darken-1" text @click="debug()"> Debug </v-btn> -->
     </v-card-actions>
@@ -46,6 +51,7 @@
 
 <script>
 export default {
+  props: ['postInModification'],
   data: () => {
     return {
       file: '',
@@ -54,6 +60,15 @@ export default {
         required: (value) => !!value || 'Required.',
       },
     };
+  },
+  mounted: function () {
+    this.$nextTick(function () {
+      // Code that will run only after the
+      // entire view has been rendered
+      console.log(this.postInModification);
+      console.log('Je fonctionne');
+      this.message = this.postInModification.message;
+    });
   },
   methods: {
     debug() {

@@ -38,17 +38,20 @@ const createStore = () => {
         state.users = users;
       },
       LOG_OUT(state) {
+        localStorage.clear();
         state.token = null;
         state.user = null;
         state.isLoggedIn = false;
         state.message = '';
         state.error = '';
       },
-      UPDATE_ACCOUNT(state, id, user) {
-        Object.assign(
-          state.users.find((element) => element.id === id),
-          user
-        );
+      UPDATE_ACCOUNT(state, user) {
+        // Object.assign(
+        //   state.users.find((element) => element.id === id),
+        //   user
+        // );
+        state.user = user;
+        console.log('UPDATE ACCOUNT', user);
         state.message = 'Le compte à bien été modifié';
       },
       DELETE_ACCOUNT(state, id) {
@@ -73,11 +76,14 @@ const createStore = () => {
         ];
         state.message = 'Le post à bien été supprimé';
       },
-      UPDATE_POST(state, id, post) {
-        Object.assign(
-          state.posts.find((element) => element.id === id),
-          post
-        );
+      UPDATE_POST(state, post) {
+        // Object.assign(
+        //   state.posts.find((element) => element.id === id),
+        //   post
+        // );
+        console.log('POST FROM INDEX', post);
+        let index = state.posts.findIndex((element) => element.id === post.id);
+        state.post[index] = post;
 
         state.message = 'Votre post a bien été modifié';
       },
@@ -123,8 +129,9 @@ const createStore = () => {
       logOut({ commit }) {
         commit('LOG_OUT');
       },
-      updateAccount({ commit }, data) {
+      updateAccount({ commit }, data, user) {
         console.log('data', data);
+        console.log('userFROM INDEX', user);
         let id = this.state.user.id;
         let config = {
           headers: {
@@ -132,8 +139,10 @@ const createStore = () => {
           },
         };
         this.$axios.$put(`accounts/${id}`, data, config).then((response) => {
-          const newUser = response;
-          commit('UPDATE_ACCOUNT', id, newUser);
+          console.log('data', data.values());
+          const newUser = response.user;
+          console.log('res', response);
+          commit('UPDATE_ACCOUNT', newUser);
         });
       },
       deleteAccount({ commit }, id) {
@@ -211,7 +220,7 @@ const createStore = () => {
 
         this.$axios.$put(`posts/` + postId, data, config).then((response) => {
           const post = response.data;
-          commit('UPDATE_POST', id, post);
+          commit('UPDATE_POST', post);
         });
       },
       createComment({ commit }, payload) {
