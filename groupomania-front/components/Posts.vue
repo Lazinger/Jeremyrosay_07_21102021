@@ -19,13 +19,9 @@
           >
             <v-card-title class="white mb-n2">
               <template>
-                <v-avatar
-                  v-if="isLogged"
-                  @click="getUserInformation(post)"
-                  size="56"
-                >
+                <v-avatar size="56">
                   <img
-                    v-if="post.User.photo"
+                    v-if="post.User.photo != null"
                     :src="post.User.photo"
                     alt="Photo de profil"
                   />
@@ -49,10 +45,7 @@
                 origin="right top"
                 transition="scale-transition"
               >
-                <template
-                  v-if="isLogged === true"
-                  v-slot:activator="{ on, attrs }"
-                >
+                <template v-if="isLogged" v-slot:activator="{ on, attrs }">
                   <v-btn dark icon v-bind="attrs" v-on="on">
                     <v-icon color="black">mdi-dots-vertical</v-icon>
                   </v-btn>
@@ -105,7 +98,11 @@
               >
             </div>
             <v-card-title v-if="displayAllComment" class="grey lighten-4">
-              <v-list v-for="comment in post.Comments" :key="comment.id">
+              <v-list
+                width="600"
+                v-for="comment in post.Comments"
+                :key="comment.id"
+              >
                 <v-list-item>
                   <v-list-item-avatar>
                     <img
@@ -133,13 +130,13 @@
 
             <div v-if="displayNewComment" class="px-5 white">
               <v-textarea
-                class=""
+                v-model="commentParam.comment"
                 clearable
                 clear-icon="mdi-close-circle"
               ></v-textarea>
-              <v-btn class="mb-3">Poster</v-btn>
+              <v-btn @click="createComment(post.id)" class="mb-3">Poster</v-btn>
             </div>
-            <v-btn class="mb-4" @click="debug()">Debug</v-btn>
+
             <v-divider></v-divider>
           </v-card>
 
@@ -147,9 +144,6 @@
 
           <v-dialog v-model="dialogPost" max-width="650px">
             <ModifyPost v-bind:post-in-modification="postInModification" />
-          </v-dialog>
-          <v-dialog v-model="dialogUser" max-width="650px">
-            <PostUser />
           </v-dialog>
         </v-col>
 
@@ -165,12 +159,18 @@ import getPosts from '../plugins/getPosts';
 export default {
   name: 'Posts',
 
-  data: () => {
+  data: function () {
     return {
+      commentParam: {
+        comment: '',
+        commentFirstname: this.$store.getters.isLogged
+          ? this.$store.state.user.firstName
+          : '',
+      },
       message: '',
       file: '',
       dialogPost: false,
-      dialogUser: false,
+
       rules: {
         required: (value) => !!value || 'Required.',
       },
@@ -179,7 +179,6 @@ export default {
       errorMessage: null,
       displayNewComment: false,
       displayAllComment: false,
-      commentCounter: 0,
     };
   },
   beforeMount() {
@@ -188,7 +187,6 @@ export default {
 
   computed: {
     posts: function () {
-      console.log('ZE STORE', this.$store.state.posts);
       return this.$store.state.posts;
     },
     user() {
@@ -200,10 +198,6 @@ export default {
   },
 
   methods: {
-    debug() {
-      console.log(this.posts);
-      console.log(this.posts.comments);
-    },
     async getAllPosts() {
       try {
         const res = await getPosts.wall(this.$axios, this.$store);
@@ -230,19 +224,19 @@ export default {
       this.dialogPost = true;
       console.log(this.post);
     },
-    getUserInformation(post) {
-      this.postUserInformation = post;
-      this.dialogUser = true;
-      console.log(this.post);
-    },
+
     toggleNewComment() {
       this.displayNewComment = true;
     },
     toggleAllComment() {
       this.displayAllComment = true;
     },
-    showCommentCount() {
-      this.commentCounter = comment.length;
+
+    createComment(id) {
+      this.$store.dispatch('createComment', {
+        id: id,
+        data: this.commentParam,
+      });
     },
   },
 };

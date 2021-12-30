@@ -77,7 +77,6 @@ export default {
           this.$store,
           this.$toast
         );
-        console.log('response', res);
 
         let data = res;
         // localStorage.setItem(
@@ -85,7 +84,6 @@ export default {
         //   JSON.stringify({ token: data.token, userId: data.user.id })
         // );
 
-        console.log('data', data);
         this.$store.dispatch('setToken', data.token);
         this.$store.dispatch('setUser', data.user);
         this.$store.dispatch('getUserById', data.user.id);

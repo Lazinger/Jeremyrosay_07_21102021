@@ -83,6 +83,7 @@ const createStore = () => {
         // );
         console.log('POST FROM INDEX', post);
         let index = state.posts.findIndex((element) => element.id === post.id);
+
         state.post[index] = post;
 
         state.message = 'Votre post a bien été modifié';
@@ -219,7 +220,8 @@ const createStore = () => {
         };
 
         this.$axios.$put(`posts/` + postId, data, config).then((response) => {
-          const post = response.data;
+          console.log('updatePost response.newPost', response.newPost);
+          const post = response.newPost;
           commit('UPDATE_POST', post);
         });
       },
@@ -233,7 +235,15 @@ const createStore = () => {
           .post(`posts/${payload.id}/comments`, payload.data, config)
           .then((res) => {
             const comment = res.data;
+            console.log('res from create comment', res);
             commit('CREATE_COMMENT', comment);
+          })
+          .then(() => {
+            this.$axios.$get(`posts`).then((response) => {
+              const posts = response;
+              console.log('response from createComment', response);
+              commit('GET_POSTS', posts);
+            });
           });
       },
     },

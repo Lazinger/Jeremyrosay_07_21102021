@@ -42,8 +42,9 @@
         text
         @click="updatePost(postInModification.id)"
       >
-        Sauvegarder {{ postInModification.id }}
+        Sauvegarder
       </v-btn>
+
       <!-- <v-btn color="blue darken-1" text @click="debug()"> Debug </v-btn> -->
     </v-card-actions>
   </v-card>
@@ -51,7 +52,6 @@
 
 <script>
 export default {
-  props: ['postInModification'],
   data: () => {
     return {
       file: '',
@@ -70,6 +70,7 @@ export default {
       this.message = this.postInModification.message;
     });
   },
+  props: ['postInModification'],
   methods: {
     debug() {
       console.log(this.postInModification);

@@ -12,22 +12,24 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn to="/newPost">Ajouter un post</v-btn>
+      <v-btn to="/newPost" plain color="blue">
+        <span class="font-weight-bold"> Ajouter un post </span>
+      </v-btn>
 
       <div v-if="isLogged === true">
-        <v-btn @click="logOut" text color="grey">
-          Se déconnecter
+        <v-btn @click="logOut" plain color="blue">
+          <span class="font-weight-bold"> Se déconnecter </span>
           <v-icon class="ml-3">mdi-logout</v-icon>
         </v-btn>
       </div>
 
       <div v-if="isLogged === false">
-        <v-btn to="/login" text color="grey">
-          Se connecter
+        <v-btn to="/login" plain color="blue">
+          <span class="font-weight-bold"> Se connecter </span>
           <v-icon class="ml-3">mdi-login</v-icon>
         </v-btn>
-        <v-btn to="/signup" text color="grey">
-          S'enregistrer
+        <v-btn to="/signup" plain color="blue">
+          <span class="font-weight-bold"> S'enregistrer </span>
           <v-icon class="ml-3">mdi-login</v-icon>
         </v-btn>
       </div>
@@ -46,7 +48,8 @@
         <v-row class="mt-5 text-center">
           <v-col cols="6">
             <v-avatar size="100">
-              <img :src="user.photo" />
+              <img v-if="isLogged && user.photo != null" :src="user.photo" />
+              <img v-else src="../static/image-1.png" />
             </v-avatar>
           </v-col>
         </v-row>

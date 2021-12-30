@@ -127,10 +127,10 @@ exports.updatePost = async (req, res) => {
 exports.createComment = async (req, res) => {
 	try {
 		const comment = req.body.comment;
-		const firstName = $store.state.user.firstName;
+		const commentFirstname = req.body.commentFirstname;
 		const newComment = await db.Comment.create({
 			message: comment,
-			firstName: firstName,
+			firstName: commentFirstname,
 			UserId: token.getUserId(req),
 			PostId: req.params.id,
 		});
