@@ -1,20 +1,29 @@
 <template>
-  <v-main class="card">
+  <v-main class="card pt-1">
     <v-container>
       <v-row justify="center">
         <v-spacer></v-spacer>
 
         <v-col>
-          <pre>{{ postInModification }}</pre>
+          <!-- <pre>{{ postInModification }}</pre>
 
-          <pre>{{ postUserInformation }}</pre>
+          <pre>{{ postUserInformation }}</pre> -->
+          <div class="text-center">
+            <img
+              src="../static/icon-above-font.png"
+              alt=""
+              contain
+              transition="scale-transition"
+              width="250"
+            />
+          </div>
 
           <v-card
             outlined
             color="transparent"
             v-for="post in posts"
             :key="post.id"
-            width="600"
+            max-width="600"
             class="my-4"
           >
             <v-card-title class="white mb-n2">
@@ -75,7 +84,7 @@
                 </v-card>
               </v-menu>
             </v-card-title>
-            <v-img :src="post.image" height="600"> </v-img>
+            <v-img :src="post.image" max-height="600"> </v-img>
 
             <v-card-title class="white mb-4">
               "{{ post.message }}"</v-card-title
@@ -84,6 +93,7 @@
             <!-- AFFICHE LES COMMENTAIRES EXISTANT ET LES "AJOUTER NOUVEAUX" -->
             <div>
               <v-btn
+                v-show="isLogged"
                 plain
                 color="black"
                 @click="displayNewComment = !displayNewComment"
@@ -141,10 +151,11 @@
           </v-card>
 
           <!-- DIALOG POUR MODIFIER ET SUPPRIMER POST -->
-
-          <v-dialog v-model="dialogPost" max-width="650px">
-            <ModifyPost v-bind:post-in-modification="postInModification" />
-          </v-dialog>
+          <v-col cols="6">
+            <v-dialog v-model="dialogPost">
+              <ModifyPost v-bind:post-in-modification="postInModification" />
+            </v-dialog>
+          </v-col>
         </v-col>
 
         <v-spacer></v-spacer>

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-row v-if="isLogged === true" justify="space-around">
+  <div v-if="isLogged">
+    <v-row justify="space-around">
       <v-card
         width="800"
         class="text-left ma-3 d-flex flex-column justify-center space-around"
@@ -85,9 +85,20 @@
         </v-card-text>
       </v-card>
     </v-row>
-    <div v-if="isLogged === false">
-      <p>Veuillez vous <nuxt-link to="/login">connecter</nuxt-link></p>
-    </div>
+  </div>
+  <div v-else>
+    <v-row>
+      <v-col>
+        <v-spacer></v-spacer>
+        <p>
+          Vous n'etes pas connecté, pour acceder à votre profil veuillez vous
+          <nuxt-link to="/login">connecter</nuxt-link> ou
+          <nuxt-link to="/signup">créer un compte </nuxt-link>si vous n'en
+          possédez pas déja un.
+        </p>
+        <v-spacer></v-spacer>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -110,7 +121,7 @@ export default {
     };
   },
   beforeMount() {
-    this.$store.dispatch('getUserById');
+    this.$store.isLogged ? this.$store.dispatch('getUserById') : '';
   },
   computed: {
     user() {

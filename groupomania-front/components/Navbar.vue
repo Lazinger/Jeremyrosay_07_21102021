@@ -1,40 +1,51 @@
 <template>
   <nav id="nav">
-    <v-app-bar flat app>
-      <v-spacer></v-spacer>
+    <v-app-bar flat app height="150">
       <v-app-bar-nav-icon
         class="grey--text"
         @click="drawer = !drawer"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title class="text-uppercase grey--text">
-        <nuxt-link to="/" class="font-weight-light">GroupoMANIA</nuxt-link>
-      </v-toolbar-title>
-
+      <div height="150">
+        <v-toolbar-title class="text-uppercase grey--text">
+          <nuxt-link to="/" class="font-weight-light"
+            ><img
+              class="d-none d-sm-flex"
+              src="../static/icon-left-font.svg"
+              contain
+              height="150"
+              alt=""
+            />
+          </nuxt-link>
+        </v-toolbar-title>
+      </div>
       <v-spacer></v-spacer>
-
-      <v-btn to="/newPost" plain color="blue">
+      <v-btn to="/newPost" plain small color="red">
         <span class="font-weight-bold"> Ajouter un post </span>
       </v-btn>
 
-      <div v-if="isLogged === true">
-        <v-btn @click="logOut" plain color="blue">
+      <div v-if="isLogged">
+        <v-btn
+          @click="logOut"
+          class="d-none d-md-block"
+          small
+          plain
+          color="red"
+        >
           <span class="font-weight-bold"> Se déconnecter </span>
           <v-icon class="ml-3">mdi-logout</v-icon>
         </v-btn>
       </div>
 
-      <div v-if="isLogged === false">
-        <v-btn to="/login" plain color="blue">
+      <div class="d-none d-md-block" v-if="isLogged === false">
+        <v-btn to="/login" small plain color="red">
           <span class="font-weight-bold"> Se connecter </span>
           <v-icon class="ml-3">mdi-login</v-icon>
         </v-btn>
-        <v-btn to="/signup" plain color="blue">
+        <v-btn to="/signup" small plain color="red">
           <span class="font-weight-bold"> S'enregistrer </span>
           <v-icon class="ml-3">mdi-login</v-icon>
         </v-btn>
       </div>
-
-      <v-spacer></v-spacer>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -42,7 +53,7 @@
       v-model="drawer"
       temporary
       app
-      class="primary"
+      class="red lighten-2"
     >
       <v-layout column align-center>
         <v-row class="mt-5 text-center">
@@ -78,6 +89,25 @@
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+
+          <div v-if="isLogged === false">
+            <v-list-item
+              class="d-md-none"
+              v-for="rlink in responsiveNotLoggedLinks"
+              :key="rlink.text"
+              router
+              :to="rlink.route"
+            >
+              <v-list-item-action>
+                <v-icon class="white--text">{{ rlink.icon }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title class="white--text">
+                  {{ rlink.text }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </div>
         </client-only>
       </v-list>
     </v-navigation-drawer>
@@ -100,6 +130,18 @@ export default {
           icon: 'mdi-folder',
           text: 'Mon profil',
           route: '/profil',
+        },
+      ],
+      responsiveNotLoggedLinks: [
+        {
+          icon: 'mdi-login',
+          text: 'Se Connecter',
+          route: '/login',
+        },
+        {
+          icon: 'mdi-login',
+          text: "S'enregistrer",
+          route: '/signup',
         },
       ],
     };

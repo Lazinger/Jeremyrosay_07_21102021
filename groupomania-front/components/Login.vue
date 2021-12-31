@@ -5,7 +5,7 @@
         <v-layout justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
-              <v-toolbar dark color="primary">
+              <v-toolbar dark color="red lighten-2">
                 <v-toolbar-title>Se connecter</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
@@ -37,7 +37,8 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                  color="primary"
+                  color="red lighten-2"
+                  class="white--text"
                   :disabled="!isValid"
                   @click.prevent="login()"
                   >Envoyer</v-btn
@@ -77,17 +78,10 @@ export default {
           this.$store,
           this.$toast
         );
-
         let data = res;
-        // localStorage.setItem(
-        //   'userSession',
-        //   JSON.stringify({ token: data.token, userId: data.user.id })
-        // );
-
         this.$store.dispatch('setToken', data.token);
         this.$store.dispatch('setUser', data.user);
         this.$store.dispatch('getUserById', data.user.id);
-
         this.$router.push('/profil');
       } catch (error) {
         console.log(error);

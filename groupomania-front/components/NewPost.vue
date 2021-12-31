@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row justify="center">
       <v-form>
-        <v-card v-if="isLogged === true">
+        <v-card elevation="5" v-if="isLogged === true">
           <v-card-title>
             <span class="text-h5">Ajouter un post</span>
           </v-card-title>
@@ -38,9 +38,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">
-              Fermer
-            </v-btn>
+            <v-btn color="blue darken-1" text to="/"> Fermer </v-btn>
             <v-btn
               color="blue darken-1"
               text

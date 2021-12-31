@@ -5,7 +5,7 @@
         <v-layout justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
-              <v-toolbar dark color="primary">
+              <v-toolbar dark color="red lighten-2">
                 <v-toolbar-title>Créer un compte</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
@@ -56,7 +56,11 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" :disabled="!isValid" @click="signup()"
+                <v-btn
+                  class="white--text"
+                  color="red lighten-4"
+                  :disabled="!isValid"
+                  @click="signup()"
                   >Envoyer</v-btn
                 >
               </v-card-actions>
