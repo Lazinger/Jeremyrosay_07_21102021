@@ -77,19 +77,10 @@ const createStore = () => {
         state.message = 'Le post à bien été supprimé';
       },
       UPDATE_POST(state, post) {
-        // Object.assign(
-        //   state.posts.find((element) => element.id === id),
-        //   post
-        // );
-        // state.post = state.post.map()
-
         let index = state.posts.findIndex((element) => element.id === post.id);
-
         post.User = state.posts[index].User;
         post.Comments = state.posts[index].Comments;
         state.posts[index] = post;
-
-        // state.post = post;
 
         state.message = 'Votre post a bien été modifié';
       },
