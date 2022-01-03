@@ -6,7 +6,7 @@ const TOKEN = process.env.JWT_TOKEN;
 module.exports = (req, res, next) => {
 	try {
 		const token = req.headers.authorization.split(" ")[1]; // on récupère le token de la requête entrante
-		console.log("Je suis ICI ------------", token);
+
 		const decodedToken = jwt.verify(token, `${TOKEN}`); // on le vérifie
 
 		const userId = decodedToken.sub; // on récupère l'id du token

@@ -26,7 +26,7 @@
             max-width="600"
             class="my-4"
           >
-            <v-card-title class="white mb-n2">
+            <v-card-title v-if="post.User" class="white mb-n2">
               <template>
                 <v-avatar size="56">
                   <img
@@ -99,15 +99,15 @@
                 @click="displayNewComment = !displayNewComment"
                 ><v-icon>mdi-comment-plus</v-icon></v-btn
               >
-              <v-btn
-                plain
-                color="black"
-                @click="displayAllComment = !displayAllComment"
+              <v-btn plain color="black" @click="toggleDisplayComments(post.id)"
                 ><v-icon>mdi-comment</v-icon
                 ><span>{{ post.Comments.length }} </span></v-btn
               >
             </div>
-            <v-card-title v-if="displayAllComment" class="grey lighten-4">
+            <v-card-title
+              v-if="shouldDisplayComments(post.id)"
+              class="grey lighten-4"
+            >
               <v-list
                 width="600"
                 v-for="comment in post.Comments"
@@ -172,6 +172,7 @@ export default {
 
   data: function () {
     return {
+      postToDisplayComments: [],
       commentParam: {
         comment: '',
         commentFirstname: this.$store.getters.isLogged
@@ -209,6 +210,18 @@ export default {
   },
 
   methods: {
+    toggleDisplayComments(id) {
+      if (this.postToDisplayComments.includes(id)) {
+        this.postToDisplayComments = this.postToDisplayComments.filter(
+          (el) => el != id
+        );
+      } else {
+        this.postToDisplayComments.push(id);
+      }
+    },
+    shouldDisplayComments(id) {
+      return this.postToDisplayComments.includes(id);
+    },
     async getAllPosts() {
       try {
         const res = await getPosts.wall(this.$axios, this.$store);
@@ -221,19 +234,15 @@ export default {
     },
 
     deletePost(id) {
-      console.log('lalallalala', id);
       try {
         this.$store.dispatch('deletePost', id);
-      } catch (error) {
-        console.log('Le bug est ici, cherche');
-      }
+      } catch (error) {}
     },
 
     editPost(post) {
       // Ouvrir le dialog //
       this.postInModification = post;
       this.dialogPost = true;
-      console.log(this.post);
     },
 
     toggleNewComment() {

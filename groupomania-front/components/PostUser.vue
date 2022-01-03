@@ -9,7 +9,6 @@
     <v-card-text> A propos de {{ post }} : </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn @click="debug()">debug</v-btn>
 
       <v-btn
         v-if="$store.state.user.admin"
@@ -37,9 +36,6 @@ export default {
     },
   },
   methods: {
-    debug() {
-      console.log(this.post.User);
-    },
     deleteAccount(id) {
       this.$store.dispatch('deleteAccount', id);
       if (this.$store.state.user.admin != true) {

@@ -92,6 +92,7 @@ exports.getAllUsers = async (req, res) => {
 };
 exports.updateAccount = async (req, res) => {
 	// modifier le profil
+
 	const id = req.params.id;
 	try {
 		const userId = token.getUserId(req);

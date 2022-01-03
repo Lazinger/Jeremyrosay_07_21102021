@@ -66,28 +66,26 @@ export default {
     this.$nextTick(function () {
       // Code that will run only after the
       // entire view has been rendered
-      console.log(this.postInModification);
-      console.log('Je fonctionne');
+
       this.message = this.postInModification.message;
     });
   },
   props: ['postInModification'],
   methods: {
-    debug() {
-      console.log(this.postInModification);
-      console.log('Je fonctionne');
-    },
-    updatePost(postId) {
-      const formData = new FormData();
-      if (this.message !== null) {
-        formData.append('message', this.message);
-      }
-      formData.append('image', this.file);
-      this.$store.dispatch('updatePost', postId, formData);
-    },
     uploadImage() {
       const file = this.$refs.file.files[0];
       this.file = file;
+    },
+    updatePost(postId) {
+      const formData = new FormData();
+
+      formData.append('message', this.message);
+
+      if (this.file !== null) {
+        formData.append('image', this.file);
+      }
+
+      this.$store.dispatch('updatePost', { id: postId, data: formData });
     },
   },
   computed: {

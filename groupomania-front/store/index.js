@@ -51,7 +51,7 @@ const createStore = () => {
         //   user
         // );
         state.user = user;
-        console.log('UPDATE ACCOUNT', user);
+
         state.message = 'Le compte à bien été modifié';
       },
       DELETE_ACCOUNT(state, id) {
@@ -81,10 +81,15 @@ const createStore = () => {
         //   state.posts.find((element) => element.id === id),
         //   post
         // );
-        console.log('POST FROM INDEX', post);
+        // state.post = state.post.map()
+
         let index = state.posts.findIndex((element) => element.id === post.id);
 
-        state.post[index] = post;
+        post.User = state.posts[index].User;
+        post.Comments = state.posts[index].Comments;
+        state.posts[index] = post;
+
+        // state.post = post;
 
         state.message = 'Votre post a bien été modifié';
       },
@@ -110,9 +115,7 @@ const createStore = () => {
           },
         };
 
-        console.log(id);
         this.$axios.$get('accounts/' + id, config).then((user) => {
-          console.log(user);
           commit('GET_USER_BY_ID', user);
         });
       },
@@ -131,8 +134,6 @@ const createStore = () => {
         commit('LOG_OUT');
       },
       updateAccount({ commit }, data, user) {
-        console.log('data', data);
-        console.log('userFROM INDEX', user);
         let id = this.state.user.id;
         let config = {
           headers: {
@@ -140,9 +141,8 @@ const createStore = () => {
           },
         };
         this.$axios.$put(`accounts/${id}`, data, config).then((response) => {
-          console.log('data', data.values());
           const newUser = response.user;
-          console.log('res', response);
+
           commit('UPDATE_ACCOUNT', newUser);
         });
       },
@@ -157,26 +157,28 @@ const createStore = () => {
         });
       },
       // Posts
+      updatePost({ commit }, payload) {
+        let config = {
+          headers: {
+            Authorization: this.state.token,
+          },
+        };
+
+        this.$axios
+          .$put(`posts/${payload.id}`, payload.data, config)
+          .then((response) => {
+            const post = response.newPost;
+            commit('UPDATE_POST', post);
+          });
+      },
 
       getPosts({ commit }) {
         this.$axios.$get(`posts`).then((response) => {
           const posts = response;
-          console.log('posts from store', posts);
+
           commit('GET_POSTS', posts);
         });
       },
-      // getPostById({ commit }) {
-      //   let id = this.state.post.id;
-      //   let config = {
-      //     headers: {
-      //       Authorization: this.state.token,
-      //     },
-      //   };
-      //   this.$axios.$get('posts/' + id, config).then((response) => {
-      //     const post = response.data;
-      //     commit('GET_POST_BY_ID', post);
-      //   });
-      // },
 
       createPost({ commit }, post) {
         let config = {
@@ -187,7 +189,6 @@ const createStore = () => {
         this.$axios
           .$post(`posts/newPost`, post, config)
           .then((response) => {
-            console.log(response);
             const post = response;
             commit('CREATE_POST', post);
           })
@@ -200,7 +201,6 @@ const createStore = () => {
       },
 
       deletePost({ commit }, postId) {
-        console.log('icicicicici', postId);
         let config = {
           headers: {
             Authorization: this.state.token,
@@ -212,19 +212,6 @@ const createStore = () => {
         });
       },
 
-      updatePost({ commit }, postId, data) {
-        let config = {
-          headers: {
-            Authorization: this.state.token,
-          },
-        };
-
-        this.$axios.$put(`posts/` + postId, data, config).then((response) => {
-          console.log('updatePost response.newPost', response.newPost);
-          const post = response.newPost;
-          commit('UPDATE_POST', post);
-        });
-      },
       createComment({ commit }, payload) {
         let config = {
           headers: {
@@ -235,13 +222,13 @@ const createStore = () => {
           .post(`posts/${payload.id}/comments`, payload.data, config)
           .then((res) => {
             const comment = res.data;
-            console.log('res from create comment', res);
+
             commit('CREATE_COMMENT', comment);
           })
           .then(() => {
             this.$axios.$get(`posts`).then((response) => {
               const posts = response;
-              console.log('response from createComment', response);
+
               commit('GET_POSTS', posts);
             });
           });

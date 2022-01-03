@@ -107,12 +107,11 @@ exports.updatePost = async (req, res) => {
 						}
 					});
 				}
+				post.image = newImage;
 			}
 			if (req.body.message) {
 				post.message = req.body.message;
 			}
-
-			post.image = newImage;
 			const newPost = await post.save({
 				fields: ["message", "image"],
 			});

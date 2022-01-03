@@ -145,7 +145,6 @@ export default {
     uploadImage() {
       const file = this.$refs.file.files[0];
       this.file = file;
-      console.log(this.file);
     },
     logOut() {
       this.$store.dispatch('logOut');
@@ -155,7 +154,6 @@ export default {
     },
 
     onSubmit(userId) {
-      console.log('userID', userId);
       const formData = new FormData();
 
       formData.append('aboutMe', this.newAboutMe);
@@ -164,7 +162,7 @@ export default {
       }
       // this.$store.dispatch('getUsers');
       // this.$store.dispatch('getUserById', userId);
-      console.log('formdata', formData);
+
       this.$store.dispatch('updateAccount', formData);
       // this.$store.dispatch('getUserById', userId);
 

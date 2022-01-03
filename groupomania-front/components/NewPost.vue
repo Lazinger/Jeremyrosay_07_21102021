@@ -98,9 +98,6 @@ export default {
       if (this.file !== null) {
         formData.append('image', this.file);
       }
-      console.log(this.message);
-      console.log(this.file);
-
       this.$store.dispatch('createPost', formData);
       setTimeout(() => {
         this.$router.push({ path: '/' });
