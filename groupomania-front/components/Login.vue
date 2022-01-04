@@ -84,7 +84,7 @@ export default {
         this.$store.dispatch('getUserById', data.user.id);
         this.$router.push('/profil');
       } catch (error) {
-        this.$toast.error('Login fail');
+        this.$toast.error('Echec lors de la connection au compte');
       }
     },
   },

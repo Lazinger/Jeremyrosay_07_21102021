@@ -1,6 +1,7 @@
 <template>
   <nav id="nav">
     <v-app-bar flat app height="150" class="white">
+      <v-spacer></v-spacer>
       <v-app-bar-nav-icon
         class="white grey--text"
         color="white"
@@ -41,6 +42,7 @@
           <v-icon class="ml-3">mdi-login</v-icon>
         </v-btn>
       </div>
+      <v-spacer></v-spacer>
     </v-app-bar>
 
     <v-navigation-drawer

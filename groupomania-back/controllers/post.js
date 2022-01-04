@@ -93,9 +93,11 @@ exports.deletePost = async (req, res) => {
 exports.updatePost = async (req, res) => {
 	try {
 		let newImage;
+		let user = await db.User.findOne({ where: { admin: true } });
 		const userId = token.getUserId(req);
 		let post = await db.Post.findOne({ where: { id: req.params.id } });
-		if (userId === post.UserId) {
+
+		if (userId === post.UserId || user.admin === true) {
 			if (req.file) {
 				newImage = `${req.protocol}://${req.get("host")}/pictures/${req.file.filename}`;
 				if (post.image) {

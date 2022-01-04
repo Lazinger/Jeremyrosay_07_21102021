@@ -58,7 +58,7 @@
                 <v-spacer></v-spacer>
                 <v-btn
                   class="white--text"
-                  color="red lighten-4"
+                  color="red lighten-2"
                   :disabled="!isValid"
                   @click="signup()"
                   >Envoyer</v-btn
@@ -116,10 +116,10 @@ export default {
           email: this.email,
           password: this.password,
         });
-        this.$toast('Register OK');
+        this.$toast('Votre compte à bien été crée');
         this.$router.push('/');
       } catch (error) {
-        this.$toast.error('Register fail');
+        this.$toast.error('Erreur lors de la création du compte');
       }
     },
   },

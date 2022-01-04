@@ -3,11 +3,7 @@
     <v-container>
       <v-row justify="center">
         <v-spacer></v-spacer>
-
         <v-col>
-          <!-- <pre>{{ postInModification }}</pre>
-
-          <pre>{{ postUserInformation }}</pre> -->
           <div class="text-center">
             <img
               src="../static/icon-above-font.png"
@@ -84,7 +80,9 @@
                 </v-card>
               </v-menu>
             </v-card-title>
-            <v-img :src="post.image" max-height="600"> </v-img>
+            <div class="d-flex justify-center">
+              <v-img :src="post.image"> </v-img>
+            </div>
 
             <v-card-title class="white mb-4">
               "{{ post.message }}"</v-card-title
@@ -100,9 +98,9 @@
                 ><v-icon>mdi-comment-plus</v-icon></v-btn
               >
               <v-btn plain color="black" @click="toggleDisplayComments(post.id)"
-                ><v-icon>mdi-comment</v-icon
-                ><span>{{ post.Comments.length }} </span></v-btn
-              >
+                ><v-icon>mdi-comment-eye</v-icon>
+                <!-- <span>{{ post.Comments.length }} </span> -->
+              </v-btn>
             </div>
             <v-card-title
               v-if="shouldDisplayComments(post.id)"

@@ -76,9 +76,7 @@
           <div class="d-flex flex-column mt-4">
             <client-only>
               <div class="d-flex justify-center">
-                <v-btn @click="onSubmit(user.id)" :disabled="!isValid"
-                  >Envoyer</v-btn
-                >
+                <v-btn @click="onSubmit()" :disabled="!isValid">Envoyer</v-btn>
               </div>
             </client-only>
           </div>
@@ -111,7 +109,7 @@ export default {
       updatePhoto: false,
       displayAboutMe: true,
       displayPhoto: true,
-      options: false,
+
       errorMessage: null,
       messageRetour: null,
       isValid: true,
@@ -134,13 +132,12 @@ export default {
   methods: {
     togglePhoto() {
       this.updatePhoto = true;
-      this.options = true;
+
       this.displayPhoto = false;
     },
     toggleAboutMe() {
       this.updateAboutMe = true;
       this.displayAboutMe = false;
-      this.options = true;
     },
     uploadImage() {
       const file = this.$refs.file.files[0];
@@ -153,24 +150,17 @@ export default {
       }, 1500);
     },
 
-    onSubmit(userId) {
+    onSubmit() {
       const formData = new FormData();
 
       formData.append('aboutMe', this.newAboutMe);
       if (this.file !== null) {
         formData.append('image', this.file);
       }
-      // this.$store.dispatch('getUsers');
-      // this.$store.dispatch('getUserById', userId);
-
       this.$store.dispatch('updateAccount', formData);
-      // this.$store.dispatch('getUserById', userId);
 
       this.updateAboutMe = false;
       this.updatePhoto = false;
-      this.options = false;
-      this.displayAboutMe = true;
-      this.displayPhoto = true;
     },
   },
 };

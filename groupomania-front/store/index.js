@@ -46,10 +46,6 @@ const createStore = () => {
         state.error = '';
       },
       UPDATE_ACCOUNT(state, user) {
-        // Object.assign(
-        //   state.users.find((element) => element.id === id),
-        //   user
-        // );
         state.user = user;
 
         state.message = 'Le compte à bien été modifié';
@@ -63,9 +59,6 @@ const createStore = () => {
       GET_POSTS(state, posts) {
         state.posts = posts;
       },
-      // GET_POST_BY_ID(state, post) {
-      //   state.post = post;
-      // },
       CREATE_POST(state, post) {
         state.posts = [post, ...state.posts];
         state.message = 'Le post à bien été créé';
