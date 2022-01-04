@@ -96,7 +96,7 @@
                 v-show="isLogged"
                 plain
                 color="black"
-                @click="displayNewComment = !displayNewComment"
+                @click="toggleDisplayNewComment(post.id)"
                 ><v-icon>mdi-comment-plus</v-icon></v-btn
               >
               <v-btn plain color="black" @click="toggleDisplayComments(post.id)"
@@ -138,7 +138,7 @@
               </v-list>
             </v-card-title>
 
-            <div v-if="displayNewComment" class="px-5 white">
+            <div v-if="shouldDisplayNewComment(post.id)" class="px-5 white">
               <v-textarea
                 v-model="commentParam.comment"
                 clearable
@@ -173,6 +173,7 @@ export default {
   data: function () {
     return {
       postToDisplayComments: [],
+      postToDisplayNewComment: [],
       commentParam: {
         comment: '',
         commentFirstname: this.$store.getters.isLogged
@@ -187,7 +188,7 @@ export default {
         required: (value) => !!value || 'Required.',
       },
       postInModification: undefined,
-      postUserInformation: undefined,
+
       errorMessage: null,
       displayNewComment: false,
       displayAllComment: false,
@@ -218,6 +219,18 @@ export default {
       } else {
         this.postToDisplayComments.push(id);
       }
+    },
+    toggleDisplayNewComment(id) {
+      if (this.postToDisplayNewComment.includes(id)) {
+        this.postToDisplayNewComment = this.postToDisplayNewComment.filter(
+          (el) => el != id
+        );
+      } else {
+        this.postToDisplayNewComment.push(id);
+      }
+    },
+    shouldDisplayNewComment(id) {
+      return this.postToDisplayNewComment.includes(id);
     },
     shouldDisplayComments(id) {
       return this.postToDisplayComments.includes(id);

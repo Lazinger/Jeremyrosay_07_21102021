@@ -1,12 +1,13 @@
 <template>
   <nav id="nav">
-    <v-app-bar flat app height="150">
+    <v-app-bar flat app height="150" class="white">
       <v-app-bar-nav-icon
-        class="grey--text"
+        class="white grey--text"
+        color="white"
         @click="drawer = !drawer"
       ></v-app-bar-nav-icon>
-      <div height="150">
-        <v-toolbar-title class="text-uppercase grey--text">
+      <div height="150" color="white">
+        <v-toolbar-title color="white" class="whitetext-uppercase grey--text">
           <nuxt-link to="/" class="font-weight-light"
             ><img
               class="d-none d-sm-flex"
@@ -19,29 +20,23 @@
         </v-toolbar-title>
       </div>
       <v-spacer></v-spacer>
-      <v-btn to="/newPost" plain small color="red">
+      <v-btn to="/newPost" plain color="red">
         <span class="font-weight-bold"> Ajouter un post </span>
       </v-btn>
 
       <div v-if="isLogged">
-        <v-btn
-          @click="logOut"
-          class="d-none d-md-block"
-          small
-          plain
-          color="red"
-        >
+        <v-btn @click="logOut" class="d-none d-md-block" plain color="red">
           <span class="font-weight-bold"> Se déconnecter </span>
           <v-icon class="ml-3">mdi-logout</v-icon>
         </v-btn>
       </div>
 
       <div class="d-none d-md-block" v-if="isLogged === false">
-        <v-btn to="/login" small plain color="red">
+        <v-btn to="/login" plain color="red">
           <span class="font-weight-bold"> Se connecter </span>
           <v-icon class="ml-3">mdi-login</v-icon>
         </v-btn>
-        <v-btn to="/signup" small plain color="red">
+        <v-btn to="/signup" plain color="red">
           <span class="font-weight-bold"> S'enregistrer </span>
           <v-icon class="ml-3">mdi-login</v-icon>
         </v-btn>
