@@ -72,6 +72,18 @@
             class="input-group--focused bio"
           >
           </v-textarea>
+          <div class="d-flex justify-end mb-2">
+            <v-btn
+              v-if="
+                (isLogged && $store.state.user.id === user.id) ||
+                (isLogged && $store.state.user.admin)
+              "
+              @click="deleteAccount(user.id)"
+              class="mx-2 red white--text"
+            >
+              Supprimer le compte
+            </v-btn>
+          </div>
           <v-divider></v-divider>
           <div class="d-flex flex-column mt-4">
             <client-only>
@@ -161,6 +173,13 @@ export default {
 
       this.updateAboutMe = false;
       this.updatePhoto = false;
+    },
+    deleteAccount(id) {
+      this.$store.dispatch('deleteAccount', id);
+      this.$store.dispatch('logOut');
+      setTimeout(() => {
+        this.$router.push({ path: '/' });
+      }, 1500);
     },
   },
 };

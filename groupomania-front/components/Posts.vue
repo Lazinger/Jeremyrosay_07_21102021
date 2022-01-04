@@ -60,13 +60,17 @@
                     (isLogged && $store.state.user.id === post.User.id) ||
                     (isLogged && $store.state.user.admin)
                   "
-                  class="d-flex flex-column"
+                  class="d-flex flex-column align-start"
                 >
-                  <v-btn plain @click="deletePost(post.id)"
+                  <v-btn
+                    elevation="0"
+                    @click="deletePost(post.id)"
+                    class="white"
                     ><v-icon>mdi-delete</v-icon> Supprimer le post</v-btn
                   >
+
                   <template>
-                    <v-btn plain @click="editPost(post)" class="mt-3"
+                    <v-btn elevation="0" @click="editPost(post)" class="white"
                       ><v-icon>mdi-pencil</v-icon> Modifier le post</v-btn
                     >
                   </template>
@@ -99,7 +103,6 @@
               >
               <v-btn plain color="black" @click="toggleDisplayComments(post.id)"
                 ><v-icon>mdi-comment-eye</v-icon>
-                <!-- <span>{{ post.Comments.length }} </span> -->
               </v-btn>
             </div>
             <v-card-title

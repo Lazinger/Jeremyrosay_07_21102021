@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 04 jan. 2022 à 14:24
+-- Généré le : mar. 04 jan. 2022 à 15:56
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -39,19 +39,15 @@ CREATE TABLE IF NOT EXISTS `comments` (
   PRIMARY KEY (`id`),
   KEY `UserId` (`UserId`),
   KEY `PostId` (`PostId`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `comments`
 --
 
 INSERT INTO `comments` (`id`, `message`, `firstName`, `createdAt`, `updatedAt`, `UserId`, `PostId`) VALUES
-(15, 'Viens à la salle !', 'Michel', '2022-01-04 14:05:02', '2022-01-04 14:05:02', 10, 8),
-(16, 'Courage', 'Jeremy', '2022-01-04 14:09:26', '2022-01-04 14:09:26', 9, 11),
-(17, 'Jolie hameçon', 'Jeremy', '2022-01-04 14:10:04', '2022-01-04 14:10:04', 9, 9),
-(18, 'Dur', 'Jeremy', '2022-01-04 14:15:12', '2022-01-04 14:15:12', 9, 8),
-(19, 'Heuss', 'Sméagol', '2022-01-04 14:15:56', '2022-01-04 14:15:56', 12, 11),
-(20, 'C\'était une bonne journée...ou pas', 'Sméagol', '2022-01-04 14:18:46', '2022-01-04 14:18:46', 12, 9);
+(20, 'C\'était une bonne journée...ou pas', 'Sméagol', '2022-01-04 14:18:46', '2022-01-04 14:18:46', 12, 9),
+(23, 'First', 'Jérémy', '2022-01-04 15:54:15', '2022-01-04 15:54:15', 17, 14);
 
 -- --------------------------------------------------------
 
@@ -69,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `UserId` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `UserId` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `posts`
@@ -78,8 +74,8 @@ CREATE TABLE IF NOT EXISTS `posts` (
 INSERT INTO `posts` (`id`, `message`, `image`, `createdAt`, `updatedAt`, `UserId`) VALUES
 (8, 'Avant/après le covid.', 'http://localhost:4000/pictures/746365688_small1641304827385.jpg', '2022-01-04 14:00:27', '2022-01-04 14:00:27', 12),
 (9, 'Mon poto et moi à la pêche', 'http://localhost:4000/pictures/332713246_small1641304880447.jpg', '2022-01-04 14:01:20', '2022-01-04 14:01:20', 11),
-(10, 'Nobody read the title', 'http://localhost:4000/pictures/perceptual-standard1641304928134.jpg', '2022-01-04 14:02:08', '2022-01-04 14:02:08', 9),
-(11, 'Moi et le projet, heusss !', 'http://localhost:4000/pictures/hqdefault1641305029520.jpg', '2022-01-04 14:03:49', '2022-01-04 14:03:49', 10);
+(14, 'Nobody read the title.', 'http://localhost:4000/pictures/eso1644bsmall__w7701641311647095.jpg', '2022-01-04 15:54:07', '2022-01-04 15:54:07', 17),
+(15, 'Moi et le projet ! Heusss !', 'http://localhost:4000/pictures/hqdefault1641311730661.jpg', '2022-01-04 15:55:30', '2022-01-04 15:55:30', 18);
 
 -- --------------------------------------------------------
 
@@ -122,18 +118,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `password`, `photo`, `aboutMe`, `admin`, `createdAt`, `updatedAt`) VALUES
-(9, 'Jeremy', 'Rosay', 'jeremy@gmail.com', '$2b$10$9.QXqhP9B5Y8WlrDLEhFEORbpUI9.GwOPVIqh7BV9J.tJqEiJ391a', 'http://localhost:4000/pictures/images1641303811890.jpg', 'Bonjour, je m\'appelle Jérémy.', 0, '2022-01-04 13:38:24', '2022-01-04 13:43:31'),
-(10, 'Michel', 'Venum', 'michel@gmail.com', '$2b$10$OdiDQi/S.l9cAXQ9JEY0MOh5BtNs1fZdzwpO12MSTH3yQtNOGzRve', 'http://localhost:4000/pictures/image_01-1024x6821641303945441.jpg', 'Heussss !', 0, '2022-01-04 13:44:17', '2022-01-04 13:45:45'),
 (11, 'Déagol', 'Nahald', 'deagol@gmail.com', '$2b$10$1Ai0Swk1/Xp2rxPTt.W1suG3RSt8oYmCKBhMMAg/N.5QECk4mPpIe', 'http://localhost:4000/pictures/Deagol11641304289226.png', 'J\'avais un bon copain.', 0, '2022-01-04 13:50:54', '2022-01-04 13:51:29'),
 (12, 'Sméagol', 'Trahald', 'smeagol@gmail.com', '$2b$10$TFUjcO9jjGrXBeftqFCI6uitj32nRxuWPKA3.JjAQbfSzawyHXMdu', 'http://localhost:4000/pictures/06998311641304791679.jpg', 'Mon précieux...', 0, '2022-01-04 13:54:17', '2022-01-04 13:59:51'),
-(13, 'admin', 'tout puissant', 'admin@admin.com', '$2b$10$VGioKJwniyfj5RfLRvGLGOGbVxvpDteioj4cMAe6gG06YgXUIFwKi', NULL, NULL, 1, '2022-01-04 14:22:42', '2022-01-04 14:22:42');
+(13, 'admin', 'tout puissant', 'admin@admin.com', '$2b$10$VGioKJwniyfj5RfLRvGLGOGbVxvpDteioj4cMAe6gG06YgXUIFwKi', NULL, NULL, 1, '2022-01-04 14:22:42', '2022-01-04 14:22:42'),
+(17, 'Jérémy', 'Rosay', 'jeremy@gmail.com', '$2b$10$GAoQMcsSdTt/PHN1NoHTj.NbHIk0VFOCSAWnqPpPKVcLKA4TdXyHG', 'http://localhost:4000/pictures/images1641311632481.jpg', 'C\'est ma bio.', 0, '2022-01-04 15:53:16', '2022-01-04 15:53:52'),
+(18, 'Michel', 'Venum', 'michel@gmail.com', '$2b$10$.8B3nTI9NbfsTKTEnZ0auukuhzR6nM3n4oGcPQYimtcV65SYOBumu', 'http://localhost:4000/pictures/image_01-1024x6821641311716124.jpg', 'Heussss !', 0, '2022-01-04 15:54:50', '2022-01-04 15:55:16');
 
 --
 -- Contraintes pour les tables déchargées
