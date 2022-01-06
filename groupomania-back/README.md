@@ -12,9 +12,9 @@ puis
 ## Base de données
 
 Se connecter au serveur **MySql** de votre choix.
-Exécuter la commande: `CREATE DATABASE socialnetwork;`
-Vérifiez les identifiants dans le fichier config.json du dossier groupomania-back/config puis importer le fichier socialnetwork.sql s'il vous a été fourni :
+Exécuter la commande: `CREATE DATABASE groupomania;`
+Vérifiez les identifiants dans le fichier config.json du dossier groupomania-back/config puis importer le fichier groupomania.sql s'il vous a été fourni :
 
-    mysql -u root -p socialnetwork < socialnetwork.sql
+    mysql -u root -p groupomania < groupomania.sql
 
-Il faut remplacer `socialnetwork.sql` par le chemin du fichier dans votre machine.
+Il faut remplacer `groupomania.sql` par le chemin du fichier dans votre machine.
