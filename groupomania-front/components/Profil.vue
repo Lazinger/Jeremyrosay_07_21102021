@@ -20,19 +20,19 @@
             </v-avatar>
           </v-responsive>
         </client-only>
-        <v-responsive class="d-flex ml-4">
-          <div>
-            <input
-              @change="uploadImage"
-              type="file"
-              accept="image/png, image/jpeg,
+
+        <div class="d-flex mt-2 ml-4">
+          <div>Changer de photo :</div>
+          <input
+            @change="uploadImage"
+            type="file"
+            accept="image/png, image/jpeg,
                     image/bmp, image/gif"
-              ref="file"
-              name="image"
-              class="mt-5"
-            />
-          </div>
-        </v-responsive>
+            ref="file"
+            name="image"
+            class="ml-5"
+          />
+        </div>
 
         <v-card-text>
           <div class="black--text mb-3">Prénom : {{ user.firstName }}</div>

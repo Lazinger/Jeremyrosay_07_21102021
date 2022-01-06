@@ -7,7 +7,7 @@
           <div class="text-center">
             <img
               src="../static/icon-above-font.png"
-              alt=""
+              alt="icone groupomania"
               contain
               transition="scale-transition"
               width="250"
@@ -22,6 +22,7 @@
             max-width="600"
             class="my-4"
           >
+            <!-- Photo de profil de l'utilisateur si il en a defini une, sinon photo par defaut -->
             <v-card-title v-if="post.User" class="white mb-n2">
               <template>
                 <v-avatar size="56">
@@ -84,10 +85,12 @@
                 </v-card>
               </v-menu>
             </v-card-title>
+            <!-- Image du post -->
             <div class="d-flex justify-center">
-              <v-img :src="post.image"> </v-img>
+              <v-img :src="post.image" alt="Image posté par l'utilisateur">
+              </v-img>
             </div>
-
+            <!-- Message du post -->
             <v-card-title class="white mb-4">
               "{{ post.message }}"</v-card-title
             >
@@ -158,7 +161,6 @@
             </v-dialog>
           </v-col>
         </v-col>
-
         <v-spacer></v-spacer>
       </v-row>
     </v-container>
@@ -184,7 +186,6 @@ export default {
       message: '',
       file: '',
       dialogPost: false,
-
       rules: {
         required: (value) => !!value || 'Required.',
       },

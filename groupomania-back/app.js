@@ -6,10 +6,12 @@ const userRoutes = require("./routes/user");
 const postRoutes = require("./routes/post");
 const cors = require("cors");
 const app = express();
+const xss = require("xss-clean");
 
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
+app.use(xss());
 
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");

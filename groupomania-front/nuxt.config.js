@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors';
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - groupomania-front',
+    titleTemplate: "%s - Le réseau d'entreprise",
     title: 'Groupomania',
     meta: [
       { charset: 'utf-8' },
@@ -11,7 +11,7 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/png', href: '/icon.png' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

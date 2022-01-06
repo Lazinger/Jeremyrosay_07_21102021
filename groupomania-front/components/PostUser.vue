@@ -1,9 +1,6 @@
 <template>
   <v-card>
     <v-card-title>
-      <!-- <v-avatar>
-        <img :src="post.User.photo" alt="" />
-      </v-avatar> -->
       <span class="text-h5 ml-5">{{ post }}</span>
     </v-card-title>
     <v-card-text> A propos de {{ post }} : </v-card-text>

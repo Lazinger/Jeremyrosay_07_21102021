@@ -1,75 +1,71 @@
 <template>
-  <v-app id="signup">
-    <v-main>
-      <v-container>
-        <v-layout justify-center>
-          <v-flex xs12 sm8 md4>
-            <v-card class="elevation-12">
-              <v-toolbar dark color="red lighten-2">
-                <v-toolbar-title>Créer un compte</v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <v-form v-model="isValid">
-                  <v-text-field
-                    id="firstName"
-                    prepend-icon="mdi-account "
-                    name="firstName"
-                    label="Prénom"
-                    type="text"
-                    :rules="firstNameRules"
-                    v-model="firstName"
-                    required
-                  ></v-text-field>
-                  <v-text-field
-                    id="lastName"
-                    prepend-icon="mdi-account "
-                    name="lastName"
-                    label="Nom"
-                    type="text"
-                    :rules="lastNameRules"
-                    v-model="lastName"
-                    required
-                  ></v-text-field>
-                  <v-text-field
-                    id="email"
-                    prepend-icon="mdi-account "
-                    name="email"
-                    label="Adresse mail"
-                    type="text"
-                    :rules="emailRules"
-                    error-count="2"
-                    v-model="email"
-                    required
-                  ></v-text-field>
-                  <v-text-field
-                    id="password"
-                    prepend-icon="mdi-lock"
-                    name="password"
-                    label="Mot de passe"
-                    type="password"
-                    :rules="passwordRules"
-                    error-count="5"
-                    v-model="password"
-                    required
-                  ></v-text-field>
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  class="white--text"
-                  color="red lighten-2"
-                  :disabled="!isValid"
-                  @click="signup()"
-                  >Envoyer</v-btn
-                >
-              </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-main>
-  </v-app>
+  <v-container>
+    <v-layout justify-center>
+      <v-flex xs12 sm8 md4>
+        <v-card class="elevation-12">
+          <v-toolbar dark color="red lighten-2">
+            <v-toolbar-title>Créer un compte</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-form v-model="isValid">
+              <v-text-field
+                id="firstName"
+                prepend-icon="mdi-account "
+                name="firstName"
+                label="Prénom"
+                type="text"
+                :rules="firstNameRules"
+                v-model="firstName"
+                required
+              ></v-text-field>
+              <v-text-field
+                id="lastName"
+                prepend-icon="mdi-account "
+                name="lastName"
+                label="Nom"
+                type="text"
+                :rules="lastNameRules"
+                v-model="lastName"
+                required
+              ></v-text-field>
+              <v-text-field
+                id="email"
+                prepend-icon="mdi-account "
+                name="email"
+                label="Adresse mail"
+                type="text"
+                :rules="emailRules"
+                error-count="2"
+                v-model="email"
+                required
+              ></v-text-field>
+              <v-text-field
+                id="password"
+                prepend-icon="mdi-lock"
+                name="password"
+                label="Mot de passe"
+                type="password"
+                :rules="passwordRules"
+                error-count="5"
+                v-model="password"
+                required
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              class="white--text"
+              color="red lighten-2"
+              :disabled="!isValid"
+              @click="signup()"
+              >Envoyer</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

@@ -47,7 +47,6 @@ const createStore = () => {
       },
       UPDATE_ACCOUNT(state, user) {
         state.user = user;
-
         state.message = 'Le compte à bien été modifié';
       },
       DELETE_ACCOUNT(state, id) {

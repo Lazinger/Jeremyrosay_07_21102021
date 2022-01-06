@@ -15,7 +15,7 @@
               src="../static/icon-left-font.svg"
               contain
               height="150"
-              alt=""
+              alt="icone utilisateur"
             />
           </nuxt-link>
         </v-toolbar-title>
@@ -56,14 +56,22 @@
         <v-row class="mt-5 text-center">
           <v-col cols="6">
             <v-avatar size="100">
-              <img v-if="isLogged && user.photo != null" :src="user.photo" />
-              <img v-else src="../static/image-1.png" />
+              <img
+                v-if="isLogged && user.photo != null"
+                :src="user.photo"
+                alt="image utilisateur"
+              />
+              <img
+                v-else
+                src="../static/image-1.png"
+                alt="image par defaut utilisateur"
+              />
             </v-avatar>
           </v-col>
         </v-row>
       </v-layout>
 
-      <div class="text-center" v-if="isLogged === true">
+      <div class="text-center" v-if="isLogged">
         <v-btn @click="logOut" small class="ma-1 mt-3" color="error">
           Se déconnecter
         </v-btn>

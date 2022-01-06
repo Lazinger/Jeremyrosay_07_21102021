@@ -1,55 +1,51 @@
 <template>
-  <v-app id="login">
-    <v-main>
-      <v-container>
-        <v-layout justify-center>
-          <v-flex xs12 sm8 md4>
-            <v-card class="elevation-12">
-              <v-toolbar dark color="red lighten-2">
-                <v-toolbar-title>Se connecter</v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <v-form v-model="isValid">
-                  <v-text-field
-                    prepend-icon="mdi-account "
-                    name="email"
-                    label="Adresse mail"
-                    type="text"
-                    :rules="[(v) => !!v || 'Email requis']"
-                    v-model="email"
-                    required
-                  ></v-text-field>
-                  <v-text-field
-                    id="password"
-                    prepend-icon="mdi-lock"
-                    name="password"
-                    label="Mot de passe"
-                    type="password"
-                    :rules="[(v) => !!v || 'Mot de passe requis']"
-                    v-model="password"
-                    required
-                  ></v-text-field>
-                </v-form>
-                <div class="danger-alert" v-html="message" />
-              </v-card-text>
-              <!-- <div class="danger-alert" v-html="errorMessage" /> -->
+  <v-container>
+    <v-layout justify-center>
+      <v-flex xs12 sm8 md4>
+        <v-card class="elevation-12">
+          <v-toolbar dark color="red lighten-2">
+            <v-toolbar-title>Se connecter</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-form v-model="isValid">
+              <v-text-field
+                prepend-icon="mdi-account "
+                name="email"
+                label="Adresse mail"
+                type="text"
+                :rules="[(v) => !!v || 'Email requis']"
+                v-model="email"
+                required
+              ></v-text-field>
+              <v-text-field
+                id="password"
+                prepend-icon="mdi-lock"
+                name="password"
+                label="Mot de passe"
+                type="password"
+                :rules="[(v) => !!v || 'Mot de passe requis']"
+                v-model="password"
+                required
+              ></v-text-field>
+            </v-form>
+            <div class="danger-alert" v-html="message" />
+          </v-card-text>
+          <!-- <div class="danger-alert" v-html="errorMessage" /> -->
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  color="red lighten-2"
-                  class="white--text"
-                  :disabled="!isValid"
-                  @click.prevent="login()"
-                  >Envoyer</v-btn
-                >
-              </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-main>
-  </v-app>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="red lighten-2"
+              class="white--text"
+              :disabled="!isValid"
+              @click.prevent="login()"
+              >Envoyer</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

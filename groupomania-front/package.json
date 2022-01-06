@@ -19,6 +19,7 @@
     "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
+    "@nuxtjs/html-validator": "^0.6.0",
     "@nuxtjs/vuetify": "^1.12.1",
     "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.3.2"

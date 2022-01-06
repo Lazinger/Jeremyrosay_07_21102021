@@ -1,7 +1,6 @@
 <template>
   <v-col cols="12">
     <v-card>
-      <!-- <pre>{{ postInModification }}</pre> -->
       <v-card-title>
         <span class="text-h5">Modifier votre post </span>
       </v-card-title>
@@ -44,8 +43,6 @@
         >
           Sauvegarder
         </v-btn>
-
-        <!-- <v-btn color="blue darken-1" text @click="debug()"> Debug </v-btn> -->
       </v-card-actions>
     </v-card>
   </v-col>
@@ -71,6 +68,7 @@ export default {
     });
   },
   props: ['postInModification'],
+
   methods: {
     uploadImage() {
       const file = this.$refs.file.files[0];
