@@ -1,7 +1,8 @@
 <template>
-  <div v-if="isLogged">
+  <div>
     <v-row justify="space-around">
       <v-card
+        v-if="isLogged"
         width="800"
         class="text-left ma-3 d-flex flex-column justify-center space-around"
         elevation="5"
@@ -94,20 +95,21 @@
           </div>
         </v-card-text>
       </v-card>
-    </v-row>
-  </div>
-  <div v-else>
-    <v-row>
-      <v-col>
-        <v-spacer></v-spacer>
-        <p>
-          Vous n'etes pas connecté, pour acceder à votre profil veuillez vous
-          <nuxt-link to="/login">connecter</nuxt-link> ou
-          <nuxt-link to="/signup">créer un compte </nuxt-link>si vous n'en
-          possédez pas déja un.
-        </p>
-        <v-spacer></v-spacer>
-      </v-col>
+      <v-card v-else>
+        <v-row>
+          <v-col>
+            <v-spacer></v-spacer>
+            <p>
+              Vous n'etes pas connecté, pour acceder à votre profil veuillez
+              vous
+              <nuxt-link to="/login">connecter</nuxt-link> ou
+              <nuxt-link to="/signup">créer un compte </nuxt-link>si vous n'en
+              possédez pas déja un.
+            </p>
+            <v-spacer></v-spacer>
+          </v-col>
+        </v-row>
+      </v-card>
     </v-row>
   </div>
 </template>

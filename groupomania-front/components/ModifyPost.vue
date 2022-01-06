@@ -41,7 +41,7 @@
           text
           @click="updatePost(postInModification.id)"
         >
-          Sauvegarder
+          Sauvegarde
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -50,6 +50,7 @@
 
 <script>
 export default {
+  name: 'ModifyPost',
   data: () => {
     return {
       file: '',
@@ -76,13 +77,10 @@ export default {
     },
     updatePost(postId) {
       const formData = new FormData();
-
       formData.append('message', this.message);
-
       if (this.file !== null) {
         formData.append('image', this.file);
       }
-
       this.$store.dispatch('updatePost', { id: postId, data: formData });
     },
   },

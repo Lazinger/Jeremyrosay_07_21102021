@@ -113,7 +113,7 @@
               class="grey lighten-4"
             >
               <v-list
-                width="600"
+                width="500"
                 v-for="comment in post.Comments"
                 :key="comment.id"
               >
@@ -156,8 +156,10 @@
 
           <!-- DIALOG POUR MODIFIER ET SUPPRIMER POST -->
           <v-col cols="6">
-            <v-dialog v-model="dialogPost">
-              <ModifyPost v-bind:post-in-modification="postInModification" />
+            <v-dialog v-if="isLogged" v-model="dialogPost">
+              <LazyModifyPost
+                v-bind:post-in-modification="postInModification"
+              />
             </v-dialog>
           </v-col>
         </v-col>
@@ -256,7 +258,7 @@ export default {
 
     editPost(post) {
       // Ouvrir le dialog //
-      this.postInModification = post;
+      this.post = post;
       this.dialogPost = true;
     },
 

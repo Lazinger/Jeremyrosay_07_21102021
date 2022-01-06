@@ -71,7 +71,7 @@
         </v-row>
       </v-layout>
 
-      <div class="text-center" v-if="isLogged">
+      <div class="text-center" v-if="isLogged === true">
         <v-btn @click="logOut" small class="ma-1 mt-3" color="error">
           Se déconnecter
         </v-btn>
